@@ -28,3 +28,39 @@ type User struct {
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
+
+func (u *User) Save() bool {
+	return false
+}
+
+func (u *User) Update() bool {
+	return false
+}
+
+func (u *User) Delete() bool {
+	return false
+}
+
+func (u *User) FindAll() []User {
+	return []User{}
+}
+
+func (u *User) FindByID() bool {
+	return false
+}
+
+func (u *User) FindByUsername() bool {
+	return false
+}
+
+func (u *User) ChangeStatus(userStatus UserStatus) bool {
+	return false
+}
+
+func (u *User) ChangeType(userType UserType) bool {
+	return false
+}
+
+func (u *User) ChangePassword(newPassword string) bool {
+	return false
+}
