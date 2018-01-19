@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package protos;
+
+message ErrorDetails {
+    string Field = 1;
+    repeated string Details = 2;
+}
+
+message Error {
+    string ID = 1;
+    string Title = 2;
+    int32 Code = 3;
+    string Details = 4;
+    repeated ErrorDetails ErrorDetails = 5;
+}

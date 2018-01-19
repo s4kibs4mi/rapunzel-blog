@@ -22,7 +22,7 @@ type User struct {
 	Name       string
 	Username   string
 	Password   string
-	details    string
+	Details    string
 	UserType   UserType
 	UserStatus UserStatus
 	CreatedAt  time.Time

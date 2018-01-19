@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package protos;
+
+message Session {
+    string AccessToken = 1;
+    string RefreshToken = 2;
+    string CreatedTime = 3;
+    string ExpireTime = 4;
+}

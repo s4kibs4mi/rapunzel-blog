@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package protos;
+
+import "protos/user.proto";
+
+service UserService {
+    rpc Register (ReqRegistration) returns (ResRegistration) {
+    }
+    rpc Login (ResLogin) returns (ResLogin) {
+    }
+    rpc Update (ReqUpdateUser) returns (ResUpdateUser) {
+    }
+    rpc ChangePassword (ReqChangePassword) returns (ResChangePassword) {
+    }
+    rpc ChangeStatus (ReqChangeUserStatus) returns (ResChangeUserStatus) {
+    }
+    rpc ChangeType (ReqChangeUserType) returns (ResChangeUserType) {
+    }
+    rpc Logout (ReqUserLogout) returns (ResUserLogout) {
+    }
+    rpc ResetPasswordRequest (ReqResetPasswordRequest) returns (ResResetPasswordRequest) {
+    }
+    rpc ResetPassword (ReqResetPassword) returns (ResResetPassword) {
+    }
+}
