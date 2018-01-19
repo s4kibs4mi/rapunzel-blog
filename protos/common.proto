@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package protos;
+
+message Pager {
+    int32 current_page = 1;
+    int32 total_page = 2;
+    int32 total = 3;
+    int32 current = 4;
+}
+
+message Query {
+    string field = 1;
+    string value = 2;
+}
+
+message GetByQuery {
+    repeated Query query = 1;
+}
+
+message GetByID {
+    string id = 1;
+}

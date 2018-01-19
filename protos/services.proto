@@ -4,6 +4,7 @@ package protos;
 
 import "protos/user.proto";
 import "protos/post.proto";
+import "protos/common.proto";
 
 service UserService {
     rpc Register (ReqRegistration) returns (ResRegistration) {
@@ -29,16 +30,16 @@ service UserService {
 }
 
 service PostService {
-    rpc PostCreate (ReqPostCreate) returns (ResPostCreate) {
+    rpc PostCreate (ReqPostCreate) returns (ResPost) {
     }
-    rpc PostUpdate (ReqPostUpdate) returns (ResPostUpdate) {
+    rpc PostUpdate (ReqPostUpdate) returns (ResPost) {
     }
-    rpc PostDelete (ReqPostDelete) returns (ResPostDelete) {
+    rpc PostDelete (GetByID) returns (ResPostSuccess) {
     }
-    rpc ChangeStatus (ReqPostChangeStatus) returns (ResPostChangeStatus) {
+    rpc ChangeStatus (ReqPostChangeStatus) returns (ResPost) {
     }
-    rpc PostView (ReqPostViewed) returns (ResPostViewed) {
+    rpc PostView (GetByID) returns (ResPost) {
     }
-    rpc PostFavourite (ReqPostFavourited) returns (ResPostFavourited) {
+    rpc PostFavourite (GetByID) returns (ResPost) {
     }
 }
