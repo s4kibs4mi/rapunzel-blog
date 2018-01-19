@@ -31,17 +31,19 @@ service UserService {
 }
 
 service PostService {
-    rpc PostCreate (ReqPostCreate) returns (ResPost) {
+    rpc CreatePost (ReqPostCreate) returns (ResPost) {
     }
-    rpc PostUpdate (ReqPostUpdate) returns (ResPost) {
+    rpc UpdatePost (ReqPostUpdate) returns (ResPost) {
     }
-    rpc PostDelete (GetByID) returns (ResPostSuccess) {
+    rpc DeletePost (GetByID) returns (ResPostSuccess) {
     }
     rpc ChangeStatus (ReqPostChangeStatus) returns (ResPost) {
     }
-    rpc PostView (GetByID) returns (ResPost) {
+    rpc GetPost (GetByID) returns (ResPost) {
     }
-    rpc PostFavourite (GetByID) returns (ResPost) {
+    rpc FavouritePost (GetByID) returns (ResPost) {
+    }
+    rpc GetPosts (GetByQuery) returns () {
     }
 }
 

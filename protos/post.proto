@@ -3,6 +3,7 @@ syntax = "proto3";
 package protos;
 
 import "protos/error.proto";
+import "protos/common.proto";
 
 message Post {
     string id = 1;
@@ -46,4 +47,9 @@ message ResPostSuccess {
 message ReqPostChangeStatus {
     string id = 1;
     string new_status = 2;
+}
+
+message ResPostList {
+    repeated Post posts = 1;
+    Pager pager = 2;
 }
