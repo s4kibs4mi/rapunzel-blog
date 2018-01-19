@@ -15,12 +15,26 @@ It has these top-level messages:
 	ErrorDetails
 	Error
 	Post
+	ReqPostCreate
+	ResPostCreate
+	ReqPostUpdate
+	ResPostUpdate
+	ReqPostDelete
+	ResPostDelete
+	ReqPostChangeStatus
+	ResPostChangeStatus
+	ReqPostViewed
+	ResPostViewed
+	ReqPostFavourited
+	ResPostFavourited
 	Session
 	User
 	ReqRegistration
 	ResRegistration
 	ReqLogin
 	ResLogin
+	ReqProfile
+	ResProfile
 	ReqUpdateUser
 	ResUpdateUser
 	ReqChangePassword

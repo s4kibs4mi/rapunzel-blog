@@ -39,6 +39,15 @@ message ResLogin {
     repeated Error Errors = 2;
 }
 
+message ReqProfile {
+    string AccessToken = 1;
+}
+
+message ResProfile {
+    User User = 1;
+    repeated Error Errors = 2;
+}
+
 message ReqUpdateUser {
     string Name = 1;
     string Details = 2;

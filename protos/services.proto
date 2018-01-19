@@ -3,11 +3,14 @@ syntax = "proto3";
 package protos;
 
 import "protos/user.proto";
+import "protos/post.proto";
 
 service UserService {
     rpc Register (ReqRegistration) returns (ResRegistration) {
     }
-    rpc Login (ResLogin) returns (ResLogin) {
+    rpc Login (ReqLogin) returns (ResLogin) {
+    }
+    rpc Profile (ReqProfile) returns (ResProfile) {
     }
     rpc Update (ReqUpdateUser) returns (ResUpdateUser) {
     }
@@ -22,5 +25,20 @@ service UserService {
     rpc ResetPasswordRequest (ReqResetPasswordRequest) returns (ResResetPasswordRequest) {
     }
     rpc ResetPassword (ReqResetPassword) returns (ResResetPassword) {
+    }
+}
+
+service PostService {
+    rpc PostCreate (ReqPostCreate) returns (ResPostCreate) {
+    }
+    rpc PostUpdate (ReqPostUpdate) returns (ResPostUpdate) {
+    }
+    rpc PostDelete (ReqPostDelete) returns (ResPostDelete) {
+    }
+    rpc ChangeStatus (ReqPostChangeStatus) returns (ResPostChangeStatus) {
+    }
+    rpc PostView (ReqPostViewed) returns (ResPostViewed) {
+    }
+    rpc PostFavourite (ReqPostFavourited) returns (ResPostFavourited) {
     }
 }

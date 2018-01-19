@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package protos;
 
+import "protos/error.proto";
+
 message Post {
     string ID = 1;
     string Title = 2;
@@ -14,4 +16,65 @@ message Post {
     string Status = 9;
     int64 Views = 10;
     int64 Favourites = 11;
+}
+
+message ReqPostCreate {
+    string Title = 1;
+    string Body = 2;
+    repeated string Categories = 3;
+    repeated string Tags = 4;
+}
+
+message ResPostCreate {
+    Post Post = 1;
+    repeated Error Errors = 2;
+}
+
+message ReqPostUpdate {
+    string Title = 1;
+    string Body = 2;
+    repeated string Categories = 3;
+    repeated string Tags = 4;
+}
+
+message ResPostUpdate {
+    Post Post = 1;
+    repeated Error Errors = 2;
+}
+
+message ReqPostDelete {
+    string PostID = 1;
+}
+
+message ResPostDelete {
+    bool Success = 1;
+    repeated Error Errors = 2;
+}
+
+message ReqPostChangeStatus {
+    string PostID = 1;
+    string NewStatus = 2;
+}
+
+message ResPostChangeStatus {
+    Post Post = 1;
+    repeated Error Errors = 2;
+}
+
+message ReqPostViewed {
+    string PostID = 1;
+}
+
+message ResPostViewed {
+    Post Post = 1;
+    repeated Error Errors = 2;
+}
+
+message ReqPostFavourited {
+    string PostID = 1;
+}
+
+message ResPostFavourited {
+    Post Post = 1;
+    repeated Error Errors = 2;
 }
