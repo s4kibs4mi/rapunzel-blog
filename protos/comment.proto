@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package protos;
+
+import "protos/error.proto";
+import "protos/common.proto";
+
+message Comment {
+    string id = 1;
+    string title = 2;
+    string body = 3;
+    string user_id = 4;
+    string post_id = 5;
+}
+
+message ReqCommentCreate {
+    string title = 1;
+    string body = 2;
+}
+
+message ResComment {
+    Comment comment = 1;
+    repeated Error errors = 2;
+}
+
+message ReqCommentUpdate {
+    string id = 1;
+    string title = 2;
+    string body = 3;
+}
+
+message ResCommentSuccess {
+    bool success = 1;
+    repeated Error errors = 2;
+}
+
+message ResCommentList {
+    repeated Comment comments = 1;
+    Pager pager = 2;
+}

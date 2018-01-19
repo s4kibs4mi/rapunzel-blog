@@ -4,6 +4,7 @@ package protos;
 
 import "protos/user.proto";
 import "protos/post.proto";
+import "protos/comment.proto";
 import "protos/common.proto";
 
 service UserService {
@@ -41,5 +42,18 @@ service PostService {
     rpc PostView (GetByID) returns (ResPost) {
     }
     rpc PostFavourite (GetByID) returns (ResPost) {
+    }
+}
+
+service CommentService {
+    rpc CreateComment (ReqCommentCreate) returns (ResComment) {
+    }
+    rpc UpdateComment (ReqCommentUpdate) returns (ResComment) {
+    }
+    rpc DeleteComment (GetByID) returns (ResCommentSuccess) {
+    }
+    rpc GetComment (GetByID) returns (ResComment) {
+    }
+    rpc GetComments (GetByQuery) returns (ResCommentList) {
     }
 }
