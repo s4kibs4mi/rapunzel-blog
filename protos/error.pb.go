@@ -6,6 +6,7 @@ Package protos is a generated protocol buffer package.
 
 It is generated from these files:
 	protos/error.proto
+	protos/post.proto
 	protos/services.proto
 	protos/session.proto
 	protos/user.proto
@@ -13,6 +14,7 @@ It is generated from these files:
 It has these top-level messages:
 	ErrorDetails
 	Error
+	Post
 	Session
 	User
 	ReqRegistration

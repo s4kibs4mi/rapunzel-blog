@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package protos;
+
+message Post {
+    string ID = 1;
+    string Title = 2;
+    string Body = 3;
+    repeated string Categories = 4;
+    repeated string Tags = 5;
+    string UserID = 6;
+    string CreatedAt = 7;
+    string UpdatedAt = 8;
+    string Status = 9;
+    int64 Views = 10;
+    int64 Favourites = 11;
+}

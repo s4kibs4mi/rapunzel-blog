@@ -26,7 +26,7 @@ message ReqRegistration {
 
 message ResRegistration {
     User User = 1;
-    repeated Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqLogin {
@@ -36,7 +36,7 @@ message ReqLogin {
 
 message ResLogin {
     Session Session = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqUpdateUser {
@@ -46,7 +46,7 @@ message ReqUpdateUser {
 
 message ResUpdateUser {
     User User = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqChangePassword {
@@ -56,7 +56,7 @@ message ReqChangePassword {
 
 message ResChangePassword {
     bool Success = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqChangeUserStatus {
@@ -65,7 +65,7 @@ message ReqChangeUserStatus {
 
 message ResChangeUserStatus {
     bool Success = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqChangeUserType {
@@ -74,7 +74,7 @@ message ReqChangeUserType {
 
 message ResChangeUserType {
     bool Success = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqUserLogout {
@@ -83,7 +83,7 @@ message ReqUserLogout {
 
 message ResUserLogout {
     bool Success = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqResetPasswordRequest {
@@ -92,7 +92,7 @@ message ReqResetPasswordRequest {
 
 message ResResetPasswordRequest {
     bool Success = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
 
 message ReqResetPassword {
@@ -102,5 +102,5 @@ message ReqResetPassword {
 
 message ResResetPassword {
     bool success = 1;
-    Error Error = 2;
+    repeated Error Errors = 2;
 }
