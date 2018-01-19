@@ -43,7 +43,7 @@ service PostService {
     }
     rpc FavouritePost (GetByID) returns (ResPost) {
     }
-    rpc GetPosts (GetByQuery) returns () {
+    rpc GetPosts (GetByQuery) returns (ResPostList) {
     }
 }
 

@@ -27,7 +27,7 @@ type User struct {
 func (m *User) Reset()                    { *m = User{} }
 func (m *User) String() string            { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()               {}
-func (*User) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{0} }
 
 func (m *User) GetID() string {
 	if m != nil {
@@ -102,7 +102,7 @@ type ReqRegistration struct {
 func (m *ReqRegistration) Reset()                    { *m = ReqRegistration{} }
 func (m *ReqRegistration) String() string            { return proto.CompactTextString(m) }
 func (*ReqRegistration) ProtoMessage()               {}
-func (*ReqRegistration) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{1} }
+func (*ReqRegistration) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{1} }
 
 func (m *ReqRegistration) GetName() string {
 	if m != nil {
@@ -140,7 +140,7 @@ type ResRegistration struct {
 func (m *ResRegistration) Reset()                    { *m = ResRegistration{} }
 func (m *ResRegistration) String() string            { return proto.CompactTextString(m) }
 func (*ResRegistration) ProtoMessage()               {}
-func (*ResRegistration) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{2} }
+func (*ResRegistration) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{2} }
 
 func (m *ResRegistration) GetUser() *User {
 	if m != nil {
@@ -164,7 +164,7 @@ type ReqLogin struct {
 func (m *ReqLogin) Reset()                    { *m = ReqLogin{} }
 func (m *ReqLogin) String() string            { return proto.CompactTextString(m) }
 func (*ReqLogin) ProtoMessage()               {}
-func (*ReqLogin) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{3} }
+func (*ReqLogin) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{3} }
 
 func (m *ReqLogin) GetUsername() string {
 	if m != nil {
@@ -188,7 +188,7 @@ type ResLogin struct {
 func (m *ResLogin) Reset()                    { *m = ResLogin{} }
 func (m *ResLogin) String() string            { return proto.CompactTextString(m) }
 func (*ResLogin) ProtoMessage()               {}
-func (*ResLogin) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{4} }
+func (*ResLogin) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{4} }
 
 func (m *ResLogin) GetSession() *Session {
 	if m != nil {
@@ -211,7 +211,7 @@ type ReqProfile struct {
 func (m *ReqProfile) Reset()                    { *m = ReqProfile{} }
 func (m *ReqProfile) String() string            { return proto.CompactTextString(m) }
 func (*ReqProfile) ProtoMessage()               {}
-func (*ReqProfile) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{5} }
+func (*ReqProfile) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{5} }
 
 func (m *ReqProfile) GetAccessToken() string {
 	if m != nil {
@@ -228,7 +228,7 @@ type ResProfile struct {
 func (m *ResProfile) Reset()                    { *m = ResProfile{} }
 func (m *ResProfile) String() string            { return proto.CompactTextString(m) }
 func (*ResProfile) ProtoMessage()               {}
-func (*ResProfile) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{6} }
+func (*ResProfile) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{6} }
 
 func (m *ResProfile) GetUser() *User {
 	if m != nil {
@@ -252,7 +252,7 @@ type ReqUpdateUser struct {
 func (m *ReqUpdateUser) Reset()                    { *m = ReqUpdateUser{} }
 func (m *ReqUpdateUser) String() string            { return proto.CompactTextString(m) }
 func (*ReqUpdateUser) ProtoMessage()               {}
-func (*ReqUpdateUser) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{7} }
+func (*ReqUpdateUser) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{7} }
 
 func (m *ReqUpdateUser) GetName() string {
 	if m != nil {
@@ -276,7 +276,7 @@ type ResUpdateUser struct {
 func (m *ResUpdateUser) Reset()                    { *m = ResUpdateUser{} }
 func (m *ResUpdateUser) String() string            { return proto.CompactTextString(m) }
 func (*ResUpdateUser) ProtoMessage()               {}
-func (*ResUpdateUser) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{8} }
+func (*ResUpdateUser) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{8} }
 
 func (m *ResUpdateUser) GetUser() *User {
 	if m != nil {
@@ -300,7 +300,7 @@ type ReqChangePassword struct {
 func (m *ReqChangePassword) Reset()                    { *m = ReqChangePassword{} }
 func (m *ReqChangePassword) String() string            { return proto.CompactTextString(m) }
 func (*ReqChangePassword) ProtoMessage()               {}
-func (*ReqChangePassword) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{9} }
+func (*ReqChangePassword) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{9} }
 
 func (m *ReqChangePassword) GetOldPassword() string {
 	if m != nil {
@@ -324,7 +324,7 @@ type ResChangePassword struct {
 func (m *ResChangePassword) Reset()                    { *m = ResChangePassword{} }
 func (m *ResChangePassword) String() string            { return proto.CompactTextString(m) }
 func (*ResChangePassword) ProtoMessage()               {}
-func (*ResChangePassword) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{10} }
+func (*ResChangePassword) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{10} }
 
 func (m *ResChangePassword) GetSuccess() bool {
 	if m != nil {
@@ -347,7 +347,7 @@ type ReqChangeUserStatus struct {
 func (m *ReqChangeUserStatus) Reset()                    { *m = ReqChangeUserStatus{} }
 func (m *ReqChangeUserStatus) String() string            { return proto.CompactTextString(m) }
 func (*ReqChangeUserStatus) ProtoMessage()               {}
-func (*ReqChangeUserStatus) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{11} }
+func (*ReqChangeUserStatus) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{11} }
 
 func (m *ReqChangeUserStatus) GetNewStatus() string {
 	if m != nil {
@@ -364,7 +364,7 @@ type ResChangeUserStatus struct {
 func (m *ResChangeUserStatus) Reset()                    { *m = ResChangeUserStatus{} }
 func (m *ResChangeUserStatus) String() string            { return proto.CompactTextString(m) }
 func (*ResChangeUserStatus) ProtoMessage()               {}
-func (*ResChangeUserStatus) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{12} }
+func (*ResChangeUserStatus) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{12} }
 
 func (m *ResChangeUserStatus) GetSuccess() bool {
 	if m != nil {
@@ -387,7 +387,7 @@ type ReqChangeUserType struct {
 func (m *ReqChangeUserType) Reset()                    { *m = ReqChangeUserType{} }
 func (m *ReqChangeUserType) String() string            { return proto.CompactTextString(m) }
 func (*ReqChangeUserType) ProtoMessage()               {}
-func (*ReqChangeUserType) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{13} }
+func (*ReqChangeUserType) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{13} }
 
 func (m *ReqChangeUserType) GetUserType() string {
 	if m != nil {
@@ -404,7 +404,7 @@ type ResChangeUserType struct {
 func (m *ResChangeUserType) Reset()                    { *m = ResChangeUserType{} }
 func (m *ResChangeUserType) String() string            { return proto.CompactTextString(m) }
 func (*ResChangeUserType) ProtoMessage()               {}
-func (*ResChangeUserType) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{14} }
+func (*ResChangeUserType) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{14} }
 
 func (m *ResChangeUserType) GetSuccess() bool {
 	if m != nil {
@@ -427,7 +427,7 @@ type ReqUserLogout struct {
 func (m *ReqUserLogout) Reset()                    { *m = ReqUserLogout{} }
 func (m *ReqUserLogout) String() string            { return proto.CompactTextString(m) }
 func (*ReqUserLogout) ProtoMessage()               {}
-func (*ReqUserLogout) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{15} }
+func (*ReqUserLogout) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{15} }
 
 func (m *ReqUserLogout) GetAccessToken() string {
 	if m != nil {
@@ -444,7 +444,7 @@ type ResUserLogout struct {
 func (m *ResUserLogout) Reset()                    { *m = ResUserLogout{} }
 func (m *ResUserLogout) String() string            { return proto.CompactTextString(m) }
 func (*ResUserLogout) ProtoMessage()               {}
-func (*ResUserLogout) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{16} }
+func (*ResUserLogout) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{16} }
 
 func (m *ResUserLogout) GetSuccess() bool {
 	if m != nil {
@@ -467,7 +467,7 @@ type ReqResetPasswordRequest struct {
 func (m *ReqResetPasswordRequest) Reset()                    { *m = ReqResetPasswordRequest{} }
 func (m *ReqResetPasswordRequest) String() string            { return proto.CompactTextString(m) }
 func (*ReqResetPasswordRequest) ProtoMessage()               {}
-func (*ReqResetPasswordRequest) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{17} }
+func (*ReqResetPasswordRequest) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{17} }
 
 func (m *ReqResetPasswordRequest) GetUsername() string {
 	if m != nil {
@@ -484,7 +484,7 @@ type ResResetPasswordRequest struct {
 func (m *ResResetPasswordRequest) Reset()                    { *m = ResResetPasswordRequest{} }
 func (m *ResResetPasswordRequest) String() string            { return proto.CompactTextString(m) }
 func (*ResResetPasswordRequest) ProtoMessage()               {}
-func (*ResResetPasswordRequest) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{18} }
+func (*ResResetPasswordRequest) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{18} }
 
 func (m *ResResetPasswordRequest) GetSuccess() bool {
 	if m != nil {
@@ -508,7 +508,7 @@ type ReqResetPassword struct {
 func (m *ReqResetPassword) Reset()                    { *m = ReqResetPassword{} }
 func (m *ReqResetPassword) String() string            { return proto.CompactTextString(m) }
 func (*ReqResetPassword) ProtoMessage()               {}
-func (*ReqResetPassword) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{19} }
+func (*ReqResetPassword) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{19} }
 
 func (m *ReqResetPassword) GetPasswordResetToken() string {
 	if m != nil {
@@ -532,7 +532,7 @@ type ResResetPassword struct {
 func (m *ResResetPassword) Reset()                    { *m = ResResetPassword{} }
 func (m *ResResetPassword) String() string            { return proto.CompactTextString(m) }
 func (*ResResetPassword) ProtoMessage()               {}
-func (*ResResetPassword) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{20} }
+func (*ResResetPassword) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{20} }
 
 func (m *ResResetPassword) GetSuccess() bool {
 	if m != nil {
@@ -572,9 +572,9 @@ func init() {
 	proto.RegisterType((*ResResetPassword)(nil), "protos.ResResetPassword")
 }
 
-func init() { proto.RegisterFile("protos/user.proto", fileDescriptor4) }
+func init() { proto.RegisterFile("protos/user.proto", fileDescriptor6) }
 
-var fileDescriptor4 = []byte{
+var fileDescriptor6 = []byte{
 	// 564 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0x5b, 0x6f, 0xd3, 0x4c,
 	0x10, 0x95, 0x9d, 0x7c, 0xb9, 0x4c, 0xbe, 0x52, 0xba, 0x20, 0x61, 0x45, 0x08, 0x45, 0x96, 0x90,
