@@ -3,7 +3,7 @@ package servers
 import (
 	"context"
 	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
-	"fmt"
+	"github.com/s4kibs4mi/rapunzel-blog/api"
 )
 
 /**
@@ -21,8 +21,7 @@ func NewUserServer() *UserServer {
 }
 
 func (u *UserServer) Register(ctx context.Context, params *pb.ReqRegistration) (*pb.ResRegistration, error) {
-	fmt.Println("Received Registration Request")
-	return &pb.ResRegistration{}, nil
+	return api.Register(ctx, params)
 }
 
 func (u *UserServer) Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {

@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 /**
  * := Coded with love by Sakib Sami on 19/01/18.
@@ -28,46 +30,11 @@ type User struct {
 	ID         string
 	Name       string
 	Username   string
+	Email      string
 	Password   string
 	Details    string
 	UserType   UserType
 	UserStatus UserStatus
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
-}
-
-func (u *User) Save() bool {
-	return false
-}
-
-func (u *User) Update() bool {
-	return false
-}
-
-func (u *User) Delete() bool {
-	return false
-}
-
-func (u *User) FindAll() []User {
-	return []User{}
-}
-
-func (u *User) FindByID() bool {
-	return false
-}
-
-func (u *User) FindByUsername() bool {
-	return false
-}
-
-func (u *User) ChangeStatus(userStatus UserStatus) bool {
-	return false
-}
-
-func (u *User) ChangeType(userType UserType) bool {
-	return false
-}
-
-func (u *User) ChangePassword(newPassword string) bool {
-	return false
 }

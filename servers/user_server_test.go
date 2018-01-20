@@ -19,6 +19,7 @@ func TestUserServer_Register(t *testing.T) {
 	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
 	if err != nil {
 		t.Error(err)
+		return
 	}
 	defer conn.Close()
 	client := protos.NewUserServiceClient(conn)
@@ -27,6 +28,12 @@ func TestUserServer_Register(t *testing.T) {
 	})
 	if e != nil {
 		t.Error(e)
+		return
 	}
+	if resp.Errors != nil {
+		t.Error(resp.Errors)
+		return
+	}
+	fmt.Println("Here 1")
 	fmt.Println(resp)
 }
