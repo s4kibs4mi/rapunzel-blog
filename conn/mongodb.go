@@ -34,9 +34,17 @@ func GetMongoDB() *mgo.Database {
 }
 
 func GetUserCollection() *mgo.Collection {
-	return GetMongoDB().C(viper.GetString("databases.mongodb.auth_collection"))
+	return GetMongoDB().C(viper.GetString("databases.mongodb.collections.user"))
 }
 
 func GetSessionCollection() *mgo.Collection {
-	return GetMongoDB().C(viper.GetString("databases.mongodb.session_collection"))
+	return GetMongoDB().C(viper.GetString("databases.mongodb.collections.session"))
+}
+
+func GetPostCollection() *mgo.Collection {
+	return GetMongoDB().C(viper.GetString("databases.mongodb.collections.post"))
+}
+
+func GetCommentCollection() *mgo.Collection {
+	return GetMongoDB().C(viper.GetString("databases.mongodb.collections.comment"))
 }

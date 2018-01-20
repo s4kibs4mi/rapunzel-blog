@@ -9,6 +9,7 @@ import (
 	"github.com/s4kibs4mi/rapunzel-blog/servers"
 	"github.com/spf13/viper"
 	"github.com/spf13/cobra"
+	"github.com/s4kibs4mi/rapunzel-blog/conn"
 )
 
 /**
@@ -25,6 +26,8 @@ var ServeCmd = cobra.Command{
 }
 
 func Serve(cmd *cobra.Command, args []string) {
+	conn.NewMongoDBConnection()
+
 	lis, err := net.Listen("tcp", viper.GetString("app.address"))
 	if err != nil {
 		fmt.Println(err)
