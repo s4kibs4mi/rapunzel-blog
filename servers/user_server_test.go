@@ -1,4 +1,4 @@
-package api
+package servers
 
 import (
 	"testing"
@@ -7,6 +7,13 @@ import (
 	"context"
 	"fmt"
 )
+
+/**
+ * := Coded with love by Sakib Sami on 19/01/18.
+ * := root@sakib.ninja
+ * := www.sakib.ninja
+ * := Coffee : Dream : Code
+ */
 
 func TestUserServer_Register(t *testing.T) {
 	conn, err := grpc.Dial(":8090", grpc.WithInsecure())

@@ -1,0 +1,42 @@
+package conn
+
+import (
+	"github.com/spf13/viper"
+	"fmt"
+	"os"
+	"gopkg.in/mgo.v2"
+)
+
+/**
+ * := Coded with love by Sakib Sami on 19/01/18.
+ * := root@sakib.ninja
+ * := www.sakib.ninja
+ * := Coffee : Dream : Code
+ */
+
+var mSession *mgo.Session
+var mDatabase *mgo.Database
+var mConnectError error
+
+func NewMongoDBConnection() {
+	mSession, mConnectError = mgo.Dial(viper.GetString("databases.mongodb.uri"))
+	if mConnectError != nil {
+		fmt.Printf("Couldn't connect to database [ %s/%s ]\n", viper.GetString("databases.mongodb.uri"),
+			viper.GetString("databases.mongodb.name"))
+		os.Exit(-1)
+	}
+	mSession.SetMode(mgo.Monotonic, true)
+	mDatabase = mSession.DB(viper.GetString("databases.mongodb.name"))
+}
+
+func GetMongoDB() *mgo.Database {
+	return mDatabase
+}
+
+func GetUserCollection() *mgo.Collection {
+	return GetMongoDB().C(viper.GetString("databases.mongodb.auth_collection"))
+}
+
+func GetSessionCollection() *mgo.Collection {
+	return GetMongoDB().C(viper.GetString("databases.mongodb.session_collection"))
+}

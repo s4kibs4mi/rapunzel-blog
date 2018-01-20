@@ -1,10 +1,17 @@
-package api
+package servers
 
 import (
 	"context"
 	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
 	"fmt"
 )
+
+/**
+ * := Coded with love by Sakib Sami on 19/01/18.
+ * := root@sakib.ninja
+ * := www.sakib.ninja
+ * := Coffee : Dream : Code
+ */
 
 type UserServer struct {
 }

@@ -4,6 +4,13 @@ package protos;
 
 option go_package = "protos";
 
+/**
+ * := Coded with love by Sakib Sami on 19/01/18.
+ * := root@sakib.ninja
+ * := www.sakib.ninja
+ * := Coffee : Dream : Code
+ */
+
 message Session {
     string AccessToken = 1;
     string RefreshToken = 2;
