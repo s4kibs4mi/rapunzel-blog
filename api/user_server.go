@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	"fmt"
 )
 
 type UserServer struct {
@@ -13,6 +14,7 @@ func NewUserServer() *UserServer {
 }
 
 func (u *UserServer) Register(ctx context.Context, params *pb.ReqRegistration) (*pb.ResRegistration, error) {
+	fmt.Println("Received Registration Request")
 	return &pb.ResRegistration{}, nil
 }
 
