@@ -16,3 +16,8 @@ func NewBCryptPassword(plain string) string {
 	}
 	return string(encrypted)
 }
+
+func CheckBCryptPassword(encryptedPassword string, plainPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(encryptedPassword), []byte(plainPassword))
+	return err == nil
+}
