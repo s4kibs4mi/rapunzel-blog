@@ -1,0 +1,25 @@
+{
+  "app": {
+    "address": ":8090",
+    "key": "12345",
+    "secret": "12345"
+  },
+  "databases": {
+    "mongodb": {
+      "uri": "mongodb://cloud.sakib.ninja:27717",
+      "name": "rapunzel_blog",
+      "collections": {
+        "user": "col_users",
+        "post": "col_posts",
+        "comment": "col_comments",
+        "session": "col_sessions"
+      }
+    }
+  },
+  "settings": {
+    "registration_enabled": true
+  },
+  "pagination": {
+    "per_page": 20
+  }
+}
