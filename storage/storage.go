@@ -17,6 +17,7 @@ type UserStorage interface {
 	Save(user models.User) bool
 	Update(user models.User) bool
 	Delete(user models.User) bool
+	Count() int
 	FindByID(ID string) *models.User
 	FindByUsername(username string) *models.User
 	FindByEmail(username string) *models.User
@@ -24,6 +25,11 @@ type UserStorage interface {
 	FindAllByQuery(query protos.Query) []models.User
 }
 
+var mongodbStorage *MongodbStorage
+
 func NewUserStorage() UserStorage {
-	return &MongodbStorage{}
+	if mongodbStorage == nil {
+		mongodbStorage = &MongodbStorage{}
+	}
+	return mongodbStorage
 }

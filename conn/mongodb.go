@@ -3,7 +3,6 @@ package conn
 import (
 	"github.com/spf13/viper"
 	"fmt"
-	"os"
 	"gopkg.in/mgo.v2"
 )
 
@@ -18,15 +17,16 @@ var mSession *mgo.Session
 var mDatabase *mgo.Database
 var mConnectError error
 
-func NewMongoDBConnection() {
+func NewMongodbConnection() bool {
 	mSession, mConnectError = mgo.Dial(viper.GetString("databases.mongodb.uri"))
 	if mConnectError != nil {
 		fmt.Printf("Couldn't connect to database [ %s/%s ]\n", viper.GetString("databases.mongodb.uri"),
 			viper.GetString("databases.mongodb.name"))
-		os.Exit(-1)
+		return false
 	}
 	mSession.SetMode(mgo.Monotonic, true)
 	mDatabase = mSession.DB(viper.GetString("databases.mongodb.name"))
+	return true
 }
 
 func GetMongoDB() *mgo.Database {

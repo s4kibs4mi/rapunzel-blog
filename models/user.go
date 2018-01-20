@@ -2,6 +2,7 @@ package models
 
 import (
 	"time"
+	"gopkg.in/mgo.v2/bson"
 )
 
 /**
@@ -27,7 +28,7 @@ type UserType string
 type UserStatus string
 
 type User struct {
-	ID         string
+	ID         bson.ObjectId
 	Name       string
 	Username   string
 	Email      string

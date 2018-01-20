@@ -26,7 +26,7 @@ var ServeCmd = cobra.Command{
 }
 
 func Serve(cmd *cobra.Command, args []string) {
-	conn.NewMongoDBConnection()
+	conn.NewMongodbConnection()
 
 	lis, err := net.Listen("tcp", viper.GetString("app.address"))
 	if err != nil {

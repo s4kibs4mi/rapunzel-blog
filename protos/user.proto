@@ -18,19 +18,20 @@ message User {
     string ID = 1;
     string Name = 2;
     string Username = 3;
-    string Password = 4;
-    string Details = 5;
-    string UserType = 6;
-    string UserStatus = 7;
-    string CreatedAt = 8;
-    string UpdatedAt = 9;
+    string Email = 4;
+    string Details = 6;
+    string UserType = 7;
+    string UserStatus = 8;
+    string CreatedAt = 9;
+    string UpdatedAt = 10;
 }
 
 message ReqRegistration {
     string Name = 1;
     string Username = 2;
-    string Password = 3;
-    string Details = 4;
+    string Email = 3;
+    string Password = 4;
+    string Details = 5;
 }
 
 message ResRegistration {
