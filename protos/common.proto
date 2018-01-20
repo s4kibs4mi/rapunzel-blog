@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package protos;
 
+option go_package = "protos";
+
 message Pager {
     int32 current_page = 1;
     int32 total_page = 2;

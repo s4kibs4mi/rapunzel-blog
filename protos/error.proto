@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package protos;
 
+option go_package = "protos";
+
 message ErrorDetails {
     string Field = 1;
     repeated string Details = 2;
