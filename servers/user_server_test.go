@@ -34,6 +34,5 @@ func TestUserServer_Register(t *testing.T) {
 		t.Error(resp.Errors)
 		return
 	}
-	fmt.Println("Here 1")
 	fmt.Println(resp)
 }
