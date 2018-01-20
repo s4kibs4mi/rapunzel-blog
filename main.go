@@ -25,5 +25,5 @@ func main() {
 		fmt.Println("Couldn't read config", err)
 		return
 	}
-	cmd.Serve()
+	cmd.Execute()
 }

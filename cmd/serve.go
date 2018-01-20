@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/reflection"
 	"github.com/s4kibs4mi/rapunzel-blog/servers"
 	"github.com/spf13/viper"
+	"github.com/spf13/cobra"
 )
 
 /**
@@ -17,7 +18,13 @@ import (
  * := Coffee : Dream : Code
  */
 
-func Serve() {
+var ServeCmd = cobra.Command{
+	Use:   "serve",
+	Run:   Serve,
+	Short: "Use serve to start gRPC server",
+}
+
+func Serve(cmd *cobra.Command, args []string) {
 	lis, err := net.Listen("tcp", viper.GetString("app.address"))
 	if err != nil {
 		fmt.Println(err)
