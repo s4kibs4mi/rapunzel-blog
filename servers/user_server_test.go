@@ -6,6 +6,7 @@ import (
 	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	"context"
 	"fmt"
+	"google.golang.org/grpc/metadata"
 )
 
 /**
@@ -49,7 +50,9 @@ func TestUserServer_Login(t *testing.T) {
 	}
 	defer conn.Close()
 	client := protos.NewUserServiceClient(conn)
-	resp, e := client.Login(context.Background(), &protos.ReqLogin{
+	md := metadata.Pairs("Authorization", "Bearer 123456")
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	resp, e := client.Login(ctx, &protos.ReqLogin{
 		Username: "s4kibs4mi",
 		Password: "12345678",
 	})

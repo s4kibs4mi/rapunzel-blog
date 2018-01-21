@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/spf13/cobra"
 	"github.com/s4kibs4mi/rapunzel-blog/conn"
+	"github.com/s4kibs4mi/rapunzel-blog/auth"
 )
 
 /**
@@ -26,15 +27,24 @@ var ServeCmd = cobra.Command{
 }
 
 func Serve(cmd *cobra.Command, args []string) {
-	conn.NewMongodbConnection()
+	initDBs()
+	runAndListen()
+}
 
+func initDBs() {
+	conn.NewMongodbConnection()
+}
+
+func runAndListen() {
 	lis, err := net.Listen("tcp", viper.GetString("app.address"))
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	fmt.Println("Listening on...", viper.GetString("app.address"))
-	gRPCServer := grpc.NewServer()
+	var serverOptions []grpc.ServerOption
+	serverOptions = append(serverOptions, grpc.UnaryInterceptor(auth.UnaryAuthInterceptor))
+	gRPCServer := grpc.NewServer(serverOptions...)
 	pb.RegisterUserServiceServer(gRPCServer, servers.NewUserServer())
 	reflection.Register(gRPCServer)
 	if err := gRPCServer.Serve(lis); err != nil {
