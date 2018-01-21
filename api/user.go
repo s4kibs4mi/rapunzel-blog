@@ -140,3 +140,109 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 		},
 	}, nil
 }
+
+func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
+	data := storage.NewUserStorage()
+	var validationErrorDetails []*pb.ErrorDetails
+	// Validating Username
+	var usernameErrors []string
+	usernameLen := len(params.Username)
+	if usernameLen <= 3 || usernameLen >= 50 {
+		usernameErrors = append(usernameErrors, "Username length must be between 3 to 50")
+	}
+	if u := data.FindByUsername(params.Username); u != nil {
+		usernameErrors = append(usernameErrors, "Username already exists.")
+	}
+	if len(usernameErrors) != 0 {
+		uErr := pb.ErrorDetails{
+			Field:   "Username",
+			Details: usernameErrors,
+		}
+		validationErrorDetails = append(validationErrorDetails, &uErr)
+	}
+	// Validating Password
+	var passwordErrors []string
+	passwordLen := len(params.Password)
+	if passwordLen <= 8 || passwordLen >= 50 {
+		passwordErrors = append(passwordErrors, "Password length must be between 8 to 50")
+	}
+	if len(passwordErrors) != 0 {
+		pErr := pb.ErrorDetails{
+			Field:   "Password",
+			Details: passwordErrors,
+		}
+		validationErrorDetails = append(validationErrorDetails, &pErr)
+	}
+	if len(validationErrorDetails) != 0 {
+		return &pb.ResLogin{
+			Session: nil,
+			Errors: []*pb.Error{
+				{
+					ID:           uuid.NewV4().String(),
+					Code:         http.StatusUnprocessableEntity,
+					Title:        "User Validation Error",
+					Details:      "Required fields are not valid",
+					ErrorDetails: validationErrorDetails,
+				},
+			},
+		}, nil
+	}
+
+	u := data.FindByUsername(params.Username)
+	if u == nil {
+		return &pb.ResLogin{
+			Session: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusNotFound,
+					Title:   "Authorization failed",
+					Details: "Username is not registered",
+				},
+			},
+		}, nil
+	}
+	if !security.CheckBCryptPassword(u.Password, params.Password) {
+		return &pb.ResLogin{
+			Session: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusUnauthorized,
+					Title:   "Authorization failed",
+					Details: "Username & password mismatch",
+				},
+			},
+		}, nil
+	}
+	if !security.HasLoginPermissions(u) {
+		return &pb.ResLogin{
+			Session: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusForbidden,
+					Title:   "Unverified",
+					Details: "User is not verified to login",
+				},
+			},
+		}, nil
+	}
+	session := models.Session{
+		AccessToken:  uuid.NewV4().String(),
+		RefreshToken: uuid.NewV4().String(),
+		CreatedAt:    time.Now(),
+		ExpiredAt:    time.Now().Add(24 * time.Hour),
+	}
+	return &pb.ResLogin{
+		Session: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Authorization failed",
+				Details: "Invalid username",
+			},
+		},
+	}, nil
+}

@@ -25,7 +25,7 @@ func (u *UserServer) Register(ctx context.Context, params *pb.ReqRegistration) (
 }
 
 func (u *UserServer) Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
-	return &pb.ResLogin{}, nil
+	return api.Login(ctx, params)
 }
 
 func (u *UserServer) Profile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, error) {

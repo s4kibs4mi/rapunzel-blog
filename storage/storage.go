@@ -25,6 +25,13 @@ type UserStorage interface {
 	FindAllByQuery(query protos.Query) []models.User
 }
 
+type SessionStorage interface {
+	Init() bool
+	SaveSession(session models.Session) bool
+	DeleteSession(session models.Session) bool
+	FindSessionByAccessToken(ID string) *models.Session
+}
+
 var mongodbStorage *MongodbStorage
 
 func NewUserStorage() UserStorage {
