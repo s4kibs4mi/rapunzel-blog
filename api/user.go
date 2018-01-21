@@ -28,7 +28,7 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	// Validating Name
 	var nameErrors []string
 	nameLen := len(params.Name)
-	if nameLen <= 3 || nameLen >= 50 {
+	if nameLen < 3 || nameLen > 50 {
 		nameErrors = append(nameErrors, "Name length must be between 3 to 50")
 	}
 	if len(nameErrors) != 0 {
@@ -41,7 +41,7 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	// Validating Username
 	var usernameErrors []string
 	usernameLen := len(params.Username)
-	if usernameLen <= 3 || usernameLen >= 50 {
+	if usernameLen < 3 || usernameLen > 50 {
 		usernameErrors = append(usernameErrors, "Username length must be between 3 to 50")
 	}
 	if u := data.FindByUsername(params.Username); u != nil {
@@ -57,7 +57,7 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	// Validating Password
 	var passwordErrors []string
 	passwordLen := len(params.Password)
-	if passwordLen <= 8 || passwordLen >= 50 {
+	if passwordLen < 8 || passwordLen > 50 {
 		passwordErrors = append(passwordErrors, "Password length must be between 8 to 50")
 	}
 	if len(passwordErrors) != 0 {

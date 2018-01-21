@@ -25,10 +25,33 @@ func TestUserServer_Register(t *testing.T) {
 	client := protos.NewUserServiceClient(conn)
 	resp, e := client.Register(context.Background(), &protos.ReqRegistration{
 		Name:     "Sakib Sami",
-		Email:    "root2sakib.ninja",
-		Username: "s4kibs4mi2",
-		Password: "123456",
+		Email:    "root@sakib.ninja",
+		Username: "s4kibs4mi",
+		Password: "12345678",
 		Details:  "Hello World",
+	})
+	if e != nil {
+		t.Error(e)
+		return
+	}
+	if resp.Errors != nil {
+		t.Error(resp.Errors)
+		return
+	}
+	fmt.Println(resp)
+}
+
+func TestUserServer_Login(t *testing.T) {
+	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	defer conn.Close()
+	client := protos.NewUserServiceClient(conn)
+	resp, e := client.Login(context.Background(), &protos.ReqLogin{
+		Username: "12345",
+		Password: "12345",
 	})
 	if e != nil {
 		t.Error(e)
