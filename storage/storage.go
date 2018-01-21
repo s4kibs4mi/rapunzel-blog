@@ -27,14 +27,21 @@ type UserStorage interface {
 
 type SessionStorage interface {
 	Init() bool
-	SaveSession(session models.Session) bool
-	DeleteSession(session models.Session) bool
+	SaveSession(session *models.Session) bool
+	DeleteSession(session *models.Session) bool
 	FindSessionByAccessToken(ID string) *models.Session
 }
 
 var mongodbStorage *MongodbStorage
 
 func NewUserStorage() UserStorage {
+	if mongodbStorage == nil {
+		mongodbStorage = &MongodbStorage{}
+	}
+	return mongodbStorage
+}
+
+func NewSessionStorage() SessionStorage {
 	if mongodbStorage == nil {
 		mongodbStorage = &MongodbStorage{}
 	}

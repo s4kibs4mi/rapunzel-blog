@@ -142,7 +142,7 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 }
 
 func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
-	data := storage.NewUserStorage()
+	userData := storage.NewUserStorage()
 	var validationErrorDetails []*pb.ErrorDetails
 	// Validating Username
 	var usernameErrors []string
@@ -150,7 +150,7 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 	if usernameLen <= 3 || usernameLen >= 50 {
 		usernameErrors = append(usernameErrors, "Username length must be between 3 to 50")
 	}
-	if u := data.FindByUsername(params.Username); u != nil {
+	if u := userData.FindByUsername(params.Username); u != nil {
 		usernameErrors = append(usernameErrors, "Username already exists.")
 	}
 	if len(usernameErrors) != 0 {
@@ -188,7 +188,7 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 		}, nil
 	}
 
-	u := data.FindByUsername(params.Username)
+	u := userData.FindByUsername(params.Username)
 	if u == nil {
 		return &pb.ResLogin{
 			Session: nil,
@@ -228,20 +228,32 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 			},
 		}, nil
 	}
-	session := models.Session{
+
+	sessionData := storage.NewSessionStorage()
+	session := &models.Session{
 		AccessToken:  uuid.NewV4().String(),
 		RefreshToken: uuid.NewV4().String(),
 		CreatedAt:    time.Now(),
 		ExpiredAt:    time.Now().Add(24 * time.Hour),
+	}
+	if sessionData.SaveSession(session) {
+		return &pb.ResLogin{
+			Session: &pb.Session{
+				AccessToken:  session.AccessToken,
+				RefreshToken: session.RefreshToken,
+				CreatedTime:  session.CreatedAt.String(),
+				ExpireTime:   session.ExpiredAt.String(),
+			},
+		}, nil
 	}
 	return &pb.ResLogin{
 		Session: nil,
 		Errors: []*pb.Error{
 			{
 				ID:      uuid.NewV4().String(),
-				Code:    http.StatusNotFound,
-				Title:   "Authorization failed",
-				Details: "Invalid username",
+				Code:    http.StatusInternalServerError,
+				Title:   "Something went wrong",
+				Details: "Couldn't process the request",
 			},
 		},
 	}, nil

@@ -97,14 +97,14 @@ func (db *MongodbStorage) FindAllByQuery(query protos.Query) []models.User {
 	return users
 }
 
-func (db *MongodbStorage) SaveSession(session models.Session) bool {
+func (db *MongodbStorage) SaveSession(session *models.Session) bool {
 	if err := conn.GetSessionCollection().Insert(session); err != nil {
 		return true
 	}
 	return false
 }
 
-func (db *MongodbStorage) DeleteSession(session models.Session) bool {
+func (db *MongodbStorage) DeleteSession(session *models.Session) bool {
 	if err := conn.GetSessionCollection().Remove(session); err != nil {
 		return true
 	}
