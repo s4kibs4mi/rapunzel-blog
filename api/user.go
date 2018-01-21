@@ -11,6 +11,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"time"
 	"github.com/s4kibs4mi/rapunzel-blog/security"
+	"github.com/goware/emailx"
 )
 
 /**
@@ -26,8 +27,9 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 
 	// Validating Name
 	var nameErrors []string
-	if params.Name == "" {
-		nameErrors = append(nameErrors, "Name must be non empty.")
+	nameLen := len(params.Name)
+	if nameLen <= 3 || nameLen >= 50 {
+		nameErrors = append(nameErrors, "Name length must be between 3 to 50")
 	}
 	if len(nameErrors) != 0 {
 		uErr := pb.ErrorDetails{
@@ -38,8 +40,9 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	}
 	// Validating Username
 	var usernameErrors []string
-	if params.Username == "" {
-		usernameErrors = append(usernameErrors, "Username must be non empty.")
+	usernameLen := len(params.Username)
+	if usernameLen <= 3 || usernameLen >= 50 {
+		usernameErrors = append(usernameErrors, "Username length must be between 3 to 50")
 	}
 	if u := data.FindByUsername(params.Username); u != nil {
 		usernameErrors = append(usernameErrors, "Username already exists.")
@@ -53,8 +56,9 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	}
 	// Validating Password
 	var passwordErrors []string
-	if params.Password == "" {
-		passwordErrors = append(passwordErrors, "Password must be non empty.")
+	passwordLen := len(params.Password)
+	if passwordLen <= 8 || passwordLen >= 50 {
+		passwordErrors = append(passwordErrors, "Password length must be between 8 to 50")
 	}
 	if len(passwordErrors) != 0 {
 		pErr := pb.ErrorDetails{
@@ -65,8 +69,9 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	}
 	// Validating Email
 	var emailErrors []string
-	if params.Email == "" {
-		emailErrors = append(emailErrors, "Email must be non empty.")
+	emailValidationErr := emailx.Validate(params.Email)
+	if emailValidationErr != nil {
+		emailErrors = append(emailErrors, "Email must be valid.")
 	}
 	if u := data.FindByEmail(params.Email); u != nil {
 		emailErrors = append(emailErrors, "Email already exists.")
