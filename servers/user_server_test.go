@@ -25,8 +25,8 @@ func TestUserServer_Register(t *testing.T) {
 	client := protos.NewUserServiceClient(conn)
 	resp, e := client.Register(context.Background(), &protos.ReqRegistration{
 		Name:     "Sakib Sami",
-		Email:    "root@sakib.ninja",
-		Username: "s4kibs4mi",
+		Email:    "root1@sakib.ninja",
+		Username: "s4kibs4mi1",
 		Password: "12345678",
 		Details:  "Hello World",
 	})
@@ -50,8 +50,8 @@ func TestUserServer_Login(t *testing.T) {
 	defer conn.Close()
 	client := protos.NewUserServiceClient(conn)
 	resp, e := client.Login(context.Background(), &protos.ReqLogin{
-		Username: "12345",
-		Password: "12345",
+		Username: "s4kibs4mi",
+		Password: "12345678",
 	})
 	if e != nil {
 		t.Error(e)

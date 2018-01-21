@@ -147,11 +147,8 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 	// Validating Username
 	var usernameErrors []string
 	usernameLen := len(params.Username)
-	if usernameLen <= 3 || usernameLen >= 50 {
+	if usernameLen < 3 || usernameLen > 50 {
 		usernameErrors = append(usernameErrors, "Username length must be between 3 to 50")
-	}
-	if u := userData.FindByUsername(params.Username); u != nil {
-		usernameErrors = append(usernameErrors, "Username already exists.")
 	}
 	if len(usernameErrors) != 0 {
 		uErr := pb.ErrorDetails{
@@ -163,7 +160,7 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 	// Validating Password
 	var passwordErrors []string
 	passwordLen := len(params.Password)
-	if passwordLen <= 8 || passwordLen >= 50 {
+	if passwordLen < 8 || passwordLen > 50 {
 		passwordErrors = append(passwordErrors, "Password length must be between 8 to 50")
 	}
 	if len(passwordErrors) != 0 {
@@ -231,6 +228,8 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 
 	sessionData := storage.NewSessionStorage()
 	session := &models.Session{
+		ID:           bson.NewObjectId(),
+		UserID:       u.ID,
 		AccessToken:  uuid.NewV4().String(),
 		RefreshToken: uuid.NewV4().String(),
 		CreatedAt:    time.Now(),

@@ -99,9 +99,9 @@ func (db *MongodbStorage) FindAllByQuery(query protos.Query) []models.User {
 
 func (db *MongodbStorage) SaveSession(session *models.Session) bool {
 	if err := conn.GetSessionCollection().Insert(session); err != nil {
-		return true
+		return false
 	}
-	return false
+	return true
 }
 
 func (db *MongodbStorage) DeleteSession(session *models.Session) bool {
