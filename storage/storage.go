@@ -36,6 +36,7 @@ type SessionStorage interface {
 type PostStorage interface {
 	Init() bool
 	SavePost(post *models.Post) bool
+	FindPostsByQuery(query []*protos.Query) []*models.Post
 }
 
 var mongodbStorage *MongodbStorage

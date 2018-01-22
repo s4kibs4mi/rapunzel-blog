@@ -38,5 +38,5 @@ func (s *PostServer) FavouritePost(ctx context.Context, params *protos.GetByID) 
 }
 
 func (s *PostServer) GetPosts(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
-	return nil, nil
+	return api.ListPost(ctx, params)
 }

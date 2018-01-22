@@ -127,3 +127,16 @@ func (db *MongodbStorage) SavePost(p *models.Post) bool {
 	}
 	return false
 }
+
+func (db *MongodbStorage) FindPostsByQuery(query []*protos.Query) []*models.Post {
+	q := bson.M{
+	}
+	for _, v := range query {
+		q[v.Field] = v.Value
+	}
+	var posts []*models.Post
+	if err := conn.GetPostCollection().Find(q).All(&posts); err == nil {
+		return posts
+	}
+	return []*models.Post{}
+}

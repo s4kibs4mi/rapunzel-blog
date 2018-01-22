@@ -101,3 +101,29 @@ func CreatePost(ctx context.Context, params *protos.ReqPostCreate) (*protos.ResP
 		},
 	}, nil
 }
+
+func ListPost(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+	postStorage := storage.NewPostStorage()
+	posts := postStorage.FindPostsByQuery(params.Query)
+	var convertedPosts []*pb.Post
+	for _, p := range posts {
+		convertedPosts = append(convertedPosts, &pb.Post{
+			Id:         p.ID.Hex(),
+			Title:      p.Title,
+			Body:       p.Body,
+			Categories: p.Categories,
+			Tags:       p.Tags,
+			Status:     string(p.Status),
+			Favourites: p.Favourites,
+			Views:      p.Views,
+			UpdatedAt:  p.UpdatedAt.String(),
+			CreatedAt:  p.CreatedAt.String(),
+		})
+	}
+	return &pb.ResPostList{
+		Posts: convertedPosts,
+	}, nil
+}
