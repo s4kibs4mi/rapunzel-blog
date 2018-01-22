@@ -10,12 +10,12 @@ import "time"
  */
 
 type Comment struct {
-	ID         string
-	UserID     string
-	PostID     string
-	Title      string
-	Body       string
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	Favourites int64
+	ID         string    `bson:"_id"`
+	UserID     string    `bson:"user_id"`
+	PostID     string    `bson:"post_id"`
+	Title      string    `bson:"title"`
+	Body       string    `bson:"body"`
+	CreatedAt  time.Time `bson:"created_at"`
+	UpdatedAt  time.Time `bson:"updated_at"`
+	Favourites int64     `bson:"favourites"`
 }

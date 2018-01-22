@@ -13,29 +13,29 @@ import (
  */
 
 const (
-	Parent UserType = "parent"
-	Family UserType = "family"
-	Ghost  UserType = "ghost"
+	UserTypeParent UserType = "parent"
+	UserTypeFamily UserType = "family"
+	UserTypeGhost  UserType = "ghost"
 )
 
 const (
-	Registered UserStatus = "registered"
-	Verified   UserStatus = "verified"
-	Blocked    UserStatus = "blocked"
+	UserStatusRegistered UserStatus = "registered"
+	UserStatusVerified   UserStatus = "verified"
+	UserStatusBlocked    UserStatus = "blocked"
 )
 
 type UserType string
 type UserStatus string
 
 type User struct {
-	ID         bson.ObjectId
-	Name       string
-	Username   string
-	Email      string
-	Password   string
-	Details    string
-	UserType   UserType
-	UserStatus UserStatus
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	ID         bson.ObjectId `bson:"_id"`
+	Name       string        `bson:"name"`
+	Username   string        `bson:"username"`
+	Email      string        `bson:"email"`
+	Password   string        `bson:"password"`
+	Details    string        `bson:"details"`
+	UserType   UserType      `bson:"user_type"`
+	UserStatus UserStatus    `bson:"user_status"`
+	CreatedAt  time.Time     `bson:"created_at"`
+	UpdatedAt  time.Time     `bson:"updated_at"`
 }

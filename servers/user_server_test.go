@@ -6,7 +6,6 @@ import (
 	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	"context"
 	"fmt"
-	"google.golang.org/grpc/metadata"
 )
 
 /**
@@ -26,8 +25,8 @@ func TestUserServer_Register(t *testing.T) {
 	client := protos.NewUserServiceClient(conn)
 	resp, e := client.Register(context.Background(), &protos.ReqRegistration{
 		Name:     "Sakib Sami",
-		Email:    "root1@sakib.ninja",
-		Username: "s4kibs4mi1",
+		Email:    "root@sakib.ninja",
+		Username: "s4kibs4mi",
 		Password: "12345678",
 		Details:  "Hello World",
 	})
@@ -50,9 +49,7 @@ func TestUserServer_Login(t *testing.T) {
 	}
 	defer conn.Close()
 	client := protos.NewUserServiceClient(conn)
-	md := metadata.Pairs("Authorization", "Bearer 123456")
-	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.Login(ctx, &protos.ReqLogin{
+	resp, e := client.Login(context.Background(), &protos.ReqLogin{
 		Username: "s4kibs4mi",
 		Password: "12345678",
 	})

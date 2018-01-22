@@ -6,10 +6,10 @@ import (
 )
 
 type Session struct {
-	ID           bson.ObjectId
-	UserID       bson.ObjectId
-	AccessToken  string
-	RefreshToken string
-	CreatedAt    time.Time
-	ExpiredAt    time.Time
+	ID           bson.ObjectId `bson:"_id"`
+	UserID       bson.ObjectId `bson:"user_id"`
+	AccessToken  string        `bson:"access_token"`
+	RefreshToken string        `bson:"refresh_token"`
+	CreatedAt    time.Time     `bson:"created_at"`
+	ExpiredAt    time.Time     `bson:"updated_at"`
 }

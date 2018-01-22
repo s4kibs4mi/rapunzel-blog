@@ -3,6 +3,7 @@ package storage
 import (
 	"github.com/s4kibs4mi/rapunzel-blog/models"
 	"github.com/s4kibs4mi/rapunzel-blog/protos"
+	"gopkg.in/mgo.v2/bson"
 )
 
 /**
@@ -18,7 +19,7 @@ type UserStorage interface {
 	Update(user models.User) bool
 	Delete(user models.User) bool
 	Count() int
-	FindByID(ID string) *models.User
+	FindByID(ID bson.ObjectId) *models.User
 	FindByUsername(username string) *models.User
 	FindByEmail(username string) *models.User
 	FindAll() []models.User
@@ -32,6 +33,11 @@ type SessionStorage interface {
 	FindSessionByAccessToken(ID string) *models.Session
 }
 
+type PostStorage interface {
+	Init() bool
+	SavePost(post *models.Post) bool
+}
+
 var mongodbStorage *MongodbStorage
 
 func NewUserStorage() UserStorage {
@@ -42,6 +48,13 @@ func NewUserStorage() UserStorage {
 }
 
 func NewSessionStorage() SessionStorage {
+	if mongodbStorage == nil {
+		mongodbStorage = &MongodbStorage{}
+	}
+	return mongodbStorage
+}
+
+func NewPostStorage() PostStorage {
 	if mongodbStorage == nil {
 		mongodbStorage = &MongodbStorage{}
 	}

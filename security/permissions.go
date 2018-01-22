@@ -8,9 +8,9 @@ import (
 )
 
 func HasLoginPermissions(u *models.User) bool {
-	if u.UserType == models.Ghost ||
-		u.UserStatus == models.Registered ||
-		u.UserStatus == models.Blocked {
+	if u.UserType == models.UserTypeGhost ||
+		u.UserStatus == models.UserStatusRegistered ||
+		u.UserStatus == models.UserStatusBlocked {
 		return false
 	}
 	return true

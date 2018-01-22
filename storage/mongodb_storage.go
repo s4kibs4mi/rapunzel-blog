@@ -49,7 +49,7 @@ func (db *MongodbStorage) Delete(user models.User) bool {
 	return true
 }
 
-func (db *MongodbStorage) FindByID(ID string) *models.User {
+func (db *MongodbStorage) FindByID(ID bson.ObjectId) *models.User {
 	u := models.User{}
 	if err := conn.GetUserCollection().FindId(ID).One(&u); err != nil {
 		return nil
@@ -114,9 +114,16 @@ func (db *MongodbStorage) DeleteSession(session *models.Session) bool {
 func (db *MongodbStorage) FindSessionByAccessToken(accessToken string) *models.Session {
 	s := &models.Session{}
 	if err := conn.GetSessionCollection().Find(bson.M{
-		"accesstoken": accessToken,
+		"access_token": accessToken,
 	}).One(s); err != nil {
 		return nil
 	}
 	return s
+}
+
+func (db *MongodbStorage) SavePost(p *models.Post) bool {
+	if err := conn.GetPostCollection().Insert(&p); err == nil {
+		return true
+	}
+	return false
 }

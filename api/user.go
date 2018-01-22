@@ -107,11 +107,11 @@ func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegis
 	u.CreatedAt = time.Now()
 	u.UpdatedAt = time.Now()
 	if data.Count() == 0 {
-		u.UserType = models.Parent
-		u.UserStatus = models.Verified
+		u.UserType = models.UserTypeParent
+		u.UserStatus = models.UserStatusVerified
 	} else {
-		u.UserType = models.Ghost
-		u.UserStatus = models.Registered
+		u.UserType = models.UserTypeGhost
+		u.UserStatus = models.UserStatusRegistered
 	}
 	if data.Save(*u) {
 		return &pb.ResRegistration{

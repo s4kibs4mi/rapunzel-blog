@@ -42,12 +42,13 @@ func UnaryAuthInterceptor(ctx context.Context, req interface{}, info *grpc.Unary
 					return handler(nil, req)
 				}
 				fmt.Println(session)
-				u := userStorage.FindByID(session.UserID.String())
+				u := userStorage.FindByID(session.UserID)
 				if u == nil {
 					return handler(nil, req)
 				}
 				fmt.Println(u)
-				nCtx := context.WithValue(ctx, UserID, u.ID)
+				md := metadata.Pairs(UserID, u.ID.Hex())
+				nCtx := metadata.NewIncomingContext(ctx, md)
 				return handler(nCtx, req)
 			}
 			return handler(nil, req)
