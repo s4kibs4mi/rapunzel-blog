@@ -46,6 +46,7 @@ func runAndListen() {
 	serverOptions = append(serverOptions, grpc.UnaryInterceptor(auth.UnaryAuthInterceptor))
 	gRPCServer := grpc.NewServer(serverOptions...)
 	pb.RegisterUserServiceServer(gRPCServer, servers.NewUserServer())
+	pb.RegisterPostServiceServer(gRPCServer, servers.NewPostServer())
 	reflection.Register(gRPCServer)
 	if err := gRPCServer.Serve(lis); err != nil {
 		fmt.Println("Failed to run server, ", err)

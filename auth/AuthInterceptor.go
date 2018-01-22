@@ -7,8 +7,6 @@ import (
 	"google.golang.org/grpc/metadata"
 	"strings"
 	"github.com/s4kibs4mi/rapunzel-blog/storage"
-	"google.golang.org/grpc/status"
-	"google.golang.org/grpc/codes"
 )
 
 const (
@@ -18,9 +16,10 @@ const (
 )
 
 func isInAuthorizationScope(method string) bool {
-	//if strings.HasSuffix(method, "Login") {
-	//	return false
-	//}
+	fmt.Println(method)
+	if strings.HasSuffix(method, "Login") {
+		return false
+	}
 	if strings.HasSuffix(method, "Register") {
 		return false
 	}
@@ -40,20 +39,20 @@ func UnaryAuthInterceptor(ctx context.Context, req interface{}, info *grpc.Unary
 				fmt.Println("Token : ", token)
 				session := sessionStorage.FindSessionByAccessToken(token)
 				if session == nil {
-					return handler(nil, status.Errorf(codes.Unauthenticated, "authentication required"))
+					return handler(nil, req)
 				}
 				fmt.Println(session)
 				u := userStorage.FindByID(session.UserID.String())
 				if u == nil {
-					return handler(nil, status.Errorf(codes.Unauthenticated, "authentication required"))
+					return handler(nil, req)
 				}
 				fmt.Println(u)
 				nCtx := context.WithValue(ctx, UserID, u.ID)
 				return handler(nCtx, req)
 			}
-			return handler(nil, grpc.Errorf(codes.Unauthenticated, "authentication required"))
+			return handler(nil, req)
 		}
-		return handler(nil, grpc.Errorf(codes.Unauthenticated, "authentication required"))
+		return handler(nil, req)
 	}
 	return handler(ctx, req)
 }
