@@ -149,6 +149,10 @@ func GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, erro
 	}
 	post := postStorage.FindPostByID(params.Id)
 	if post != nil {
+		post.Views++
+		if !postStorage.UpdatePost(post) {
+			post.Views--
+		}
 		return &pb.ResPost{
 			Post: &pb.Post{
 				Id:         post.ID.Hex(),

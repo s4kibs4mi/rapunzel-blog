@@ -128,6 +128,15 @@ func (db *MongodbStorage) SavePost(p *models.Post) bool {
 	return false
 }
 
+func (db *MongodbStorage) UpdatePost(p *models.Post) bool {
+	if err := conn.GetPostCollection().Update(bson.M{
+		"_id": p.ID,
+	}, p); err != nil {
+		return false
+	}
+	return true
+}
+
 func (db *MongodbStorage) FindPostsByQuery(query []*protos.Query) []*models.Post {
 	q := bson.M{
 	}
