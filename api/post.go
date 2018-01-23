@@ -11,6 +11,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"time"
 	"github.com/s4kibs4mi/rapunzel-blog/storage"
+	"fmt"
 )
 
 func CreatePost(ctx context.Context, params *protos.ReqPostCreate) (*protos.ResPost, error) {
@@ -125,5 +126,53 @@ func ListPost(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostLi
 	}
 	return &pb.ResPostList{
 		Posts: convertedPosts,
+	}, nil
+}
+
+func GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+	postStorage := storage.NewPostStorage()
+	if !bson.IsObjectIdHex(params.Id) {
+		return &pb.ResPost{
+			Post: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid ID",
+					Details: fmt.Sprintf("Post ID %s is not valid", params.Id),
+				},
+			},
+		}, nil
+	}
+	post := postStorage.FindPostByID(params.Id)
+	if post != nil {
+		return &pb.ResPost{
+			Post: &pb.Post{
+				Id:         post.ID.Hex(),
+				Title:      post.Title,
+				Body:       post.Body,
+				Categories: post.Categories,
+				Tags:       post.Tags,
+				Status:     string(post.Status),
+				Favourites: post.Favourites,
+				Views:      post.Views,
+				UpdatedAt:  post.UpdatedAt.String(),
+				CreatedAt:  post.CreatedAt.String(),
+			},
+		}, nil
+	}
+	return &pb.ResPost{
+		Post: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Not found",
+				Details: fmt.Sprintf("Post with ID %s not found", params.Id),
+			},
+		},
 	}, nil
 }

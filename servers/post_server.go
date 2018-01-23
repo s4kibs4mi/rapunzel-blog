@@ -30,7 +30,7 @@ func (s *PostServer) ChangeStatus(ctx context.Context, params *protos.ReqPostCha
 }
 
 func (s *PostServer) GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
-	return nil, nil
+	return api.GetPost(ctx, params)
 }
 
 func (s *PostServer) FavouritePost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {

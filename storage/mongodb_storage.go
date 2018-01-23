@@ -140,3 +140,14 @@ func (db *MongodbStorage) FindPostsByQuery(query []*protos.Query) []*models.Post
 	}
 	return []*models.Post{}
 }
+
+func (db *MongodbStorage) FindPostByID(postID string) *models.Post {
+	q := bson.M{
+		"_id": bson.ObjectIdHex(postID),
+	}
+	var post *models.Post
+	if err := conn.GetPostCollection().Find(q).One(&post); err == nil {
+		return post
+	}
+	return nil
+}
