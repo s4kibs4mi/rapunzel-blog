@@ -23,6 +23,15 @@ func isInAuthorizationScope(method string) bool {
 	if strings.HasSuffix(method, "Register") {
 		return false
 	}
+	if strings.HasSuffix(method, "GetPosts") {
+		return false
+	}
+	if strings.HasSuffix(method, "GetPost") {
+		return false
+	}
+	if strings.HasSuffix(method, "FavouritePost") {
+		return false
+	}
 	return true
 }
 

@@ -104,9 +104,6 @@ func CreatePost(ctx context.Context, params *protos.ReqPostCreate) (*protos.ResP
 }
 
 func ListPost(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
-	if !security.IsAuthenticated(ctx) {
-		return nil, security.GetUnauthenticatedError()
-	}
 	postStorage := storage.NewPostStorage()
 	posts := postStorage.FindPostsByQuery(params.Query)
 	var convertedPosts []*pb.Post
@@ -130,9 +127,6 @@ func ListPost(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostLi
 }
 
 func GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
-	if !security.IsAuthenticated(ctx) {
-		return nil, security.GetUnauthenticatedError()
-	}
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResPost{
@@ -152,6 +146,55 @@ func GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, erro
 		post.Views++
 		if !postStorage.UpdatePost(post) {
 			post.Views--
+		}
+		return &pb.ResPost{
+			Post: &pb.Post{
+				Id:         post.ID.Hex(),
+				Title:      post.Title,
+				Body:       post.Body,
+				Categories: post.Categories,
+				Tags:       post.Tags,
+				Status:     string(post.Status),
+				Favourites: post.Favourites,
+				Views:      post.Views,
+				UpdatedAt:  post.UpdatedAt.String(),
+				CreatedAt:  post.CreatedAt.String(),
+			},
+		}, nil
+	}
+	return &pb.ResPost{
+		Post: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Not found",
+				Details: fmt.Sprintf("Post with ID %s not found", params.Id),
+			},
+		},
+	}, nil
+}
+
+func FavouritePost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
+	postStorage := storage.NewPostStorage()
+	if !bson.IsObjectIdHex(params.Id) {
+		return &pb.ResPost{
+			Post: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid ID",
+					Details: fmt.Sprintf("Post ID %s is not valid", params.Id),
+				},
+			},
+		}, nil
+	}
+	post := postStorage.FindPostByID(params.Id)
+	if post != nil {
+		post.Favourites++
+		if !postStorage.UpdatePost(post) {
+			post.Favourites--
 		}
 		return &pb.ResPost{
 			Post: &pb.Post{
