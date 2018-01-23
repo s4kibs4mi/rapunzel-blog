@@ -6,6 +6,7 @@ A Blogging platform based on gRPC written in Golang
 
 #### Features
 `[+]` Registration<br/>
+`[-]` Initiate Verification via Email<br/>
 `[-]` User Verification via Email<br/>
 `[+]` Login<br/>
 `[-]` Get User Profile<br/>
