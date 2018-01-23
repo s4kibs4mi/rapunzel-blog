@@ -26,7 +26,7 @@ func (s *CommentServer) DeleteComment(ctx context.Context, params *protos.GetByI
 }
 
 func (s *CommentServer) GetComment(ctx context.Context, params *protos.GetByID) (*protos.ResComment, error) {
-	return nil, nil
+	return api.GetComment(ctx, params)
 }
 
 func (s *CommentServer) GetComments(ctx context.Context, params *protos.GetByQuery) (*protos.ResCommentList, error) {

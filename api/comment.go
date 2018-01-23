@@ -131,3 +131,43 @@ func GetComments(ctx context.Context, params *protos.GetByQuery) (*protos.ResCom
 		Comments: convertedComments,
 	}, nil
 }
+
+func GetComment(ctx context.Context, params *protos.GetByID) (*protos.ResComment, error) {
+	commentStorage := storage.NewCommentStorage()
+	if !bson.IsObjectIdHex(params.Id) {
+		return &pb.ResComment{
+			Comment: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid ID",
+					Details: fmt.Sprintf("Comment ID %s is not valid", params.Id),
+				},
+			},
+		}, nil
+	}
+	comment := commentStorage.FindCommentByID(params.Id)
+	if comment != nil {
+		return &pb.ResComment{
+			Comment: &pb.Comment{
+				Id:        comment.ID.Hex(),
+				Title:     comment.Title,
+				Body:      comment.Body,
+				UpdatedAt: comment.UpdatedAt.String(),
+				CreatedAt: comment.CreatedAt.String(),
+			},
+		}, nil
+	}
+	return &pb.ResComment{
+		Comment: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Not found",
+				Details: fmt.Sprintf("Comment with ID %s not found", params.Id),
+			},
+		},
+	}, nil
+}

@@ -186,7 +186,7 @@ func (db *MongodbStorage) FindCommentByID(commentID string) *models.Comment {
 		"_id": bson.ObjectIdHex(commentID),
 	}
 	var comment *models.Comment
-	if err := conn.GetPostCollection().Find(q).One(&comment); err == nil {
+	if err := conn.GetCommentCollection().Find(q).One(&comment); err == nil {
 		return comment
 	}
 	return nil
