@@ -160,3 +160,18 @@ func (db *MongodbStorage) FindPostByID(postID string) *models.Post {
 	}
 	return nil
 }
+
+func (db *MongodbStorage) SaveComment(comment *models.Comment) bool {
+	if err := conn.GetCommentCollection().Insert(comment); err != nil {
+		return false
+	}
+	return true
+}
+
+func (db *MongodbStorage) FindCommentsByQuery(query []*protos.Query) []*models.Comment {
+	return nil
+}
+
+func (db *MongodbStorage) FindCommentByID(commentID string) *models.Comment {
+	return nil
+}

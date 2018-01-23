@@ -20,11 +20,14 @@ message Comment {
     string body = 3;
     string user_id = 4;
     string post_id = 5;
+    string created_at = 6;
+    string updated_at = 7;
 }
 
 message ReqCommentCreate {
     string title = 1;
     string body = 2;
+    string post_id = 3;
 }
 
 message ResComment {

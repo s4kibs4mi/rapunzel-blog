@@ -41,6 +41,13 @@ type PostStorage interface {
 	FindPostByID(postID string) *models.Post
 }
 
+type CommentStorage interface {
+	Init() bool
+	SaveComment(comment *models.Comment) bool
+	FindCommentsByQuery(query []*protos.Query) []*models.Comment
+	FindCommentByID(commentID string) *models.Comment
+}
+
 var mongodbStorage *MongodbStorage
 
 func NewUserStorage() UserStorage {
@@ -58,6 +65,13 @@ func NewSessionStorage() SessionStorage {
 }
 
 func NewPostStorage() PostStorage {
+	if mongodbStorage == nil {
+		mongodbStorage = &MongodbStorage{}
+	}
+	return mongodbStorage
+}
+
+func NewCommentStorage() CommentStorage {
 	if mongodbStorage == nil {
 		mongodbStorage = &MongodbStorage{}
 	}
