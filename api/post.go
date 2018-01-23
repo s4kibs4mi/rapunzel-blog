@@ -103,7 +103,7 @@ func CreatePost(ctx context.Context, params *protos.ReqPostCreate) (*protos.ResP
 	}, nil
 }
 
-func ListPost(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
+func GetPosts(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
 	postStorage := storage.NewPostStorage()
 	posts := postStorage.FindPostsByQuery(params.Query)
 	var convertedPosts []*pb.Post

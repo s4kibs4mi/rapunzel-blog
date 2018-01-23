@@ -111,3 +111,23 @@ func CreateComment(ctx context.Context, params *protos.ReqCommentCreate) (*proto
 		},
 	}, nil
 }
+
+func GetComments(ctx context.Context, params *protos.GetByQuery) (*protos.ResCommentList, error) {
+	commentStorage := storage.NewCommentStorage()
+	comments := commentStorage.FindCommentsByQuery(params.Query)
+	var convertedComments []*pb.Comment
+	for _, c := range comments {
+		convertedComments = append(convertedComments, &pb.Comment{
+			Id:        c.ID.Hex(),
+			Title:     c.Title,
+			Body:      c.Body,
+			PostId:    c.PostID.Hex(),
+			UserId:    c.UserID.Hex(),
+			UpdatedAt: c.UpdatedAt.String(),
+			CreatedAt: c.CreatedAt.String(),
+		})
+	}
+	return &pb.ResCommentList{
+		Comments: convertedComments,
+	}, nil
+}

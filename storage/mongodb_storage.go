@@ -169,9 +169,25 @@ func (db *MongodbStorage) SaveComment(comment *models.Comment) bool {
 }
 
 func (db *MongodbStorage) FindCommentsByQuery(query []*protos.Query) []*models.Comment {
-	return nil
+	q := bson.M{
+	}
+	for _, v := range query {
+		q[v.Field] = v.Value
+	}
+	var comments []*models.Comment
+	if err := conn.GetCommentCollection().Find(q).All(&comments); err == nil {
+		return comments
+	}
+	return []*models.Comment{}
 }
 
 func (db *MongodbStorage) FindCommentByID(commentID string) *models.Comment {
+	q := bson.M{
+		"_id": bson.ObjectIdHex(commentID),
+	}
+	var comment *models.Comment
+	if err := conn.GetPostCollection().Find(q).One(&comment); err == nil {
+		return comment
+	}
 	return nil
 }

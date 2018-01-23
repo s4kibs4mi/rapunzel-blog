@@ -30,5 +30,5 @@ func (s *CommentServer) GetComment(ctx context.Context, params *protos.GetByID) 
 }
 
 func (s *CommentServer) GetComments(ctx context.Context, params *protos.GetByQuery) (*protos.ResCommentList, error) {
-	return nil, nil
+	return api.GetComments(ctx, params)
 }
