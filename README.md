@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/s4kibs4mi/rapunzel-blog/master/extras/rapunzel_thumb200x263.png)
+![](https://raw.githubusercontent.com/s4kibs4mi/rapunzel-blog/master/extras/rapunzel_blog_thumb.png)
 # Rapunzel Blog
 
 ##### Compile Protos,
