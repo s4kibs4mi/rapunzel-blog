@@ -18,7 +18,7 @@ func (s *PostServer) CreatePost(ctx context.Context, params *protos.ReqPostCreat
 }
 
 func (s *PostServer) UpdatePost(ctx context.Context, params *protos.ReqPostUpdate) (*protos.ResPost, error) {
-	return nil, nil
+	return api.UpdatePost(ctx, params)
 }
 
 func (s *PostServer) DeletePost(ctx context.Context, params *protos.GetByID) (*protos.ResPostSuccess, error) {

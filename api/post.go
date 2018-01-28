@@ -305,6 +305,75 @@ func DeletePost(ctx context.Context, params *pb.GetByID) (*protos.ResPostSuccess
 	}, nil
 }
 
+func UpdatePost(ctx context.Context, params *pb.ReqPostUpdate) (*protos.ResPost, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+	postStorage := storage.NewPostStorage()
+	if !bson.IsObjectIdHex(params.Id) {
+		return &pb.ResPost{
+			Post: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid ID",
+					Details: fmt.Sprintf("Post ID %s is not valid", params.Id),
+				},
+			},
+		}, nil
+	}
+	post := postStorage.FindPostByID(params.Id)
+	if post != nil {
+		if !security.HasPostWritePermission(ctx, *post) {
+			return nil, security.GetUnauthorisedError()
+		}
+		post.Title = params.Title
+		post.Body = params.Body
+		post.Tags = params.Tags
+		post.Categories = params.Categories
+		post.UpdatedAt = time.Now()
+		if postStorage.UpdatePost(post) {
+			return &pb.ResPost{
+				Post: &pb.Post{
+					Id:         post.ID.Hex(),
+					Title:      post.Title,
+					Body:       post.Body,
+					Categories: post.Categories,
+					Tags:       post.Tags,
+					Status:     string(post.Status),
+					Favourites: post.Favourites,
+					Views:      post.Views,
+					UpdatedAt:  post.UpdatedAt.String(),
+					CreatedAt:  post.CreatedAt.String(),
+				},
+			}, nil
+		}
+		return &pb.ResPost{
+			Post: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusInternalServerError,
+					Title:   "Something went wrong",
+					Details: fmt.Sprintf("Couldn't update post with ID %s", params.Id),
+				},
+			},
+		}, nil
+	}
+	return &pb.ResPost{
+		Post: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Not found",
+				Details: fmt.Sprintf("Post with ID %s not found", params.Id),
+			},
+		},
+	}, nil
+}
+
 func FavouritePost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
