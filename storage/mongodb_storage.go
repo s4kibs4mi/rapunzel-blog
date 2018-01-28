@@ -137,6 +137,15 @@ func (db *MongodbStorage) UpdatePost(p *models.Post) bool {
 	return true
 }
 
+func (db *MongodbStorage) DeletePost(p *models.Post) bool {
+	if err := conn.GetPostCollection().Remove(bson.M{
+		"_id": p.ID,
+	}); err != nil {
+		return false
+	}
+	return true
+}
+
 func (db *MongodbStorage) FindPostsByQuery(query []*protos.Query) []*models.Post {
 	q := bson.M{
 	}

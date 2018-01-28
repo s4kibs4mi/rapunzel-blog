@@ -37,6 +37,7 @@ type PostStorage interface {
 	Init() bool
 	SavePost(post *models.Post) bool
 	UpdatePost(post *models.Post) bool
+	DeletePost(post *models.Post) bool
 	FindPostsByQuery(query []*protos.Query) []*models.Post
 	FindPostByID(postID string) *models.Post
 }

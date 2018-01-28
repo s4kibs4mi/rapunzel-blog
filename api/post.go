@@ -255,6 +255,56 @@ func GetPost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
 	}, nil
 }
 
+func DeletePost(ctx context.Context, params *pb.GetByID) (*protos.ResPostSuccess, error) {
+	postStorage := storage.NewPostStorage()
+	if !bson.IsObjectIdHex(params.Id) {
+		return &pb.ResPostSuccess{
+			Success: false,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid ID",
+					Details: fmt.Sprintf("Post ID %s is not valid", params.Id),
+				},
+			},
+		}, nil
+	}
+	post := postStorage.FindPostByID(params.Id)
+	if post != nil {
+		if !security.HasPostWritePermission(ctx, *post) {
+			return nil, security.GetUnauthoriedError()
+		}
+		if !postStorage.DeletePost(post) {
+			return &pb.ResPostSuccess{
+				Success: false,
+				Errors: []*pb.Error{
+					{
+						ID:      uuid.NewV4().String(),
+						Code:    http.StatusInternalServerError,
+						Title:   "Something went wrong",
+						Details: fmt.Sprintf("Couldn't delete post with ID %s", params.Id),
+					},
+				},
+			}, nil
+		}
+		return &pb.ResPostSuccess{
+			Success: true,
+		}, nil
+	}
+	return &pb.ResPostSuccess{
+		Success: false,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Not found",
+				Details: fmt.Sprintf("Post with ID %s not found", params.Id),
+			},
+		},
+	}, nil
+}
+
 func FavouritePost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
