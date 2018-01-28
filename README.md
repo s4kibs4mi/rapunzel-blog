@@ -18,7 +18,7 @@ A Blogging platform based on gRPC written in Golang
 `[-]` Logout<br/>
 `[+]` Create Post<br/>
 `[-]` Update Post<br/>
-`[-]` Delete Post<br/>
+`[+]` Delete Post<br/>
 `[+]` List Posts<br/>
 `[+]` Get Post<br/>
 `[+]` Change Post Status<br/>

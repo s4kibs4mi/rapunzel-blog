@@ -50,6 +50,6 @@ func GetUnauthenticatedError() error {
 	return status.Errorf(codes.Unauthenticated, "Authentication required")
 }
 
-func GetUnauthoriedError() error {
+func GetUnauthorisedError() error {
 	return status.Errorf(codes.PermissionDenied, "Unauthorized user")
 }

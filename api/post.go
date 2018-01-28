@@ -147,7 +147,7 @@ func ChangePostStatus(ctx context.Context, params *pb.ReqPostChangeStatus) (*pb.
 	post := postStorage.FindPostByID(params.Id)
 	if post != nil {
 		if !security.HasPostWritePermission(ctx, *post) {
-			return nil, security.GetUnauthoriedError()
+			return nil, security.GetUnauthorisedError()
 		}
 		if post.ValidateStatus(params.NewStatus) {
 			post.Status = post.ToPostStatus(params.NewStatus)
@@ -273,7 +273,7 @@ func DeletePost(ctx context.Context, params *pb.GetByID) (*protos.ResPostSuccess
 	post := postStorage.FindPostByID(params.Id)
 	if post != nil {
 		if !security.HasPostWritePermission(ctx, *post) {
-			return nil, security.GetUnauthoriedError()
+			return nil, security.GetUnauthorisedError()
 		}
 		if !postStorage.DeletePost(post) {
 			return &pb.ResPostSuccess{
