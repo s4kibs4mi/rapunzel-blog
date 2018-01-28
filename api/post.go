@@ -14,7 +14,7 @@ import (
 	"fmt"
 )
 
-func CreatePost(ctx context.Context, params *protos.ReqPostCreate) (*protos.ResPost, error) {
+func CreatePost(ctx context.Context, params *pb.ReqPostCreate) (*protos.ResPost, error) {
 	if !security.IsAuthenticated(ctx) {
 		return nil, security.GetUnauthenticatedError()
 	}
@@ -103,7 +103,7 @@ func CreatePost(ctx context.Context, params *protos.ReqPostCreate) (*protos.ResP
 	}, nil
 }
 
-func GetPosts(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
+func ListPosts(ctx context.Context, params *pb.GetByQuery) (*pb.ResPostList, error) {
 	postStorage := storage.NewPostStorage()
 	posts := postStorage.FindPostsByQuery(params.Query)
 	var convertedPosts []*pb.Post
@@ -126,7 +126,87 @@ func GetPosts(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostLi
 	}, nil
 }
 
-func GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
+func ChangePostStatus(ctx context.Context, params *pb.ReqPostChangeStatus) (*pb.ResPost, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+	postStorage := storage.NewPostStorage()
+	if !bson.IsObjectIdHex(params.Id) {
+		return &pb.ResPost{
+			Post: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid ID",
+					Details: fmt.Sprintf("Post ID %s is not valid", params.Id),
+				},
+			},
+		}, nil
+	}
+	post := postStorage.FindPostByID(params.Id)
+	if post != nil {
+		if !security.HasPostWritePermission(ctx, *post) {
+			return nil, security.GetUnauthoriedError()
+		}
+		if post.ValidateStatus(params.NewStatus) {
+			post.Status = post.ToPostStatus(params.NewStatus)
+			post.UpdatedAt = time.Now()
+			if postStorage.UpdatePost(post) {
+				return &pb.ResPost{
+					Post: &pb.Post{
+						Id:         post.ID.Hex(),
+						Title:      post.Title,
+						Body:       post.Body,
+						Categories: post.Categories,
+						Tags:       post.Tags,
+						Status:     string(post.Status),
+						Favourites: post.Favourites,
+						Views:      post.Views,
+						UpdatedAt:  post.UpdatedAt.String(),
+						CreatedAt:  post.CreatedAt.String(),
+					},
+				}, nil
+			}
+			return &pb.ResPost{
+				Post: nil,
+				Errors: []*pb.Error{
+					{
+						ID:      uuid.NewV4().String(),
+						Code:    http.StatusInternalServerError,
+						Title:   "Internal server error",
+						Details: "Couldn't process the request",
+					},
+				},
+			}, nil
+		}
+		return &pb.ResPost{
+			Post: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Bad request",
+					Details: fmt.Sprintf("Post status %s is not valid", params.NewStatus),
+				},
+			},
+		}, nil
+	}
+	return &pb.ResPost{
+		Post: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "Not found",
+				Details: fmt.Sprintf("Post with ID %s not found", params.Id),
+			},
+		},
+	}, nil
+
+}
+
+func GetPost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResPost{
@@ -175,7 +255,7 @@ func GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, erro
 	}, nil
 }
 
-func FavouritePost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
+func FavouritePost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResPost{

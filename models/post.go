@@ -32,3 +32,14 @@ type Post struct {
 	Views      int64         `bson:"views"`
 	Favourites int64         `bson:"favourites"`
 }
+
+func (p *Post) ValidateStatus(newStatus string) bool {
+	if newStatus == string(PostStatusSaved) || newStatus == string(PostStatusPublished) {
+		return true
+	}
+	return false
+}
+
+func (p *Post) ToPostStatus(status string) Status {
+	return Status(status)
+}

@@ -26,7 +26,7 @@ func (s *PostServer) DeletePost(ctx context.Context, params *protos.GetByID) (*p
 }
 
 func (s *PostServer) ChangeStatus(ctx context.Context, params *protos.ReqPostChangeStatus) (*protos.ResPost, error) {
-	return nil, nil
+	return api.ChangePostStatus(ctx, params)
 }
 
 func (s *PostServer) GetPost(ctx context.Context, params *protos.GetByID) (*protos.ResPost, error) {
@@ -38,5 +38,5 @@ func (s *PostServer) FavouritePost(ctx context.Context, params *protos.GetByID) 
 }
 
 func (s *PostServer) GetPosts(ctx context.Context, params *protos.GetByQuery) (*protos.ResPostList, error) {
-	return api.GetPosts(ctx, params)
+	return api.ListPosts(ctx, params)
 }

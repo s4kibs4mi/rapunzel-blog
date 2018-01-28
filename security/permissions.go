@@ -5,6 +5,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"context"
+	"github.com/s4kibs4mi/rapunzel-blog/storage"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func HasLoginPermissions(u *models.User) bool {
@@ -16,6 +18,24 @@ func HasLoginPermissions(u *models.User) bool {
 	return true
 }
 
+func HasPostWritePermission(ctx context.Context, p models.Post) bool {
+	if HasPermissionAsParent(ctx) {
+		return true
+	}
+	userStorage := storage.NewUserStorage()
+	u := userStorage.FindByID(bson.ObjectIdHex(ReadUserIDFromContext(ctx)))
+	return u.ID == p.UserID
+}
+
+func HasPermissionAsParent(ctx context.Context) bool {
+	if ctx == nil {
+		return false
+	}
+	userStorage := storage.NewUserStorage()
+	u := userStorage.FindByID(bson.ObjectIdHex(ReadUserIDFromContext(ctx)))
+	return u.UserType == models.UserTypeParent
+}
+
 func IsAuthenticated(ctx context.Context) bool {
 	if ctx == nil {
 		return false
@@ -25,4 +45,8 @@ func IsAuthenticated(ctx context.Context) bool {
 
 func GetUnauthenticatedError() error {
 	return status.Errorf(codes.Unauthenticated, "Authentication required")
+}
+
+func GetUnauthoriedError() error {
+	return status.Errorf(codes.PermissionDenied, "Unauthorized user")
 }
