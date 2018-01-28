@@ -19,6 +19,9 @@ func HasLoginPermissions(u *models.User) bool {
 }
 
 func HasPostWritePermission(ctx context.Context, p models.Post) bool {
+	if ctx == nil {
+		return false
+	}
 	if HasPermissionAsParent(ctx) {
 		return true
 	}

@@ -123,10 +123,10 @@ func TestPostServer_DeletePost(t *testing.T) {
 	}
 	defer conn.Close()
 	client := protos.NewPostServiceClient(conn)
-	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
+	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.DeletePost(ctx, &protos.GetByID{
-		Id: "5a662802b34db604fb5dbc89",
+		Id: "5a662858b34db60518737db1",
 	})
 	if e != nil {
 		t.Error(e)
