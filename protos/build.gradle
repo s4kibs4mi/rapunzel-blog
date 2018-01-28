@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'com.google.protobuf'
+
+ext.grpcVersion = '1.9.0'
+ext.protobufVersion = '3.5.1'
+
+buildscript {
+    repositories { mavenCentral() }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile "com.google.protobuf:protobuf-java:${protobufVersion}"
+    compile "io.grpc:grpc-all:${grpcVersion}"
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:${protobufVersion}" }
+    plugins { grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" } }
+    generateProtoTasks { ofSourceSet('main')*.plugins { grpc {} } }
+}
+
+idea {
+    module {
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java/ninja/sakib/rapunzel")
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc/ninja/sakib/rapunzel")
+    }
+}
+
+jar {
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}

@@ -3,6 +3,7 @@ syntax = "proto3";
 package protos;
 
 option go_package = "protos";
+option java_package = "ninja.sakib.rapunzel";
 
 import "protos/user.proto";
 import "protos/post.proto";
