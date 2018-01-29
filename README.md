@@ -30,6 +30,9 @@ A Blogging platform based on gRPC written in Golang
 `[+]` Get Comment<br/>
 `[-]` Favourite Comment<br/>
 
+##### Installation
+Download the [dep](https://github.com/golang/dep) package and run command `dep ensure` to install dependencies
+
 ##### Compile Protos,
 ```
 protoc --proto_path=. --go_out=plugins=grpc:. ./protos/*.proto

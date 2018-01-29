@@ -2,3 +2,4 @@
 .idea/
 protos/.gradle/
 protos/build/
+vendor
