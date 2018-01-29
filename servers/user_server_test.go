@@ -1,11 +1,13 @@
 package servers
 
 import (
-	"testing"
-	"google.golang.org/grpc"
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	"context"
 	"fmt"
+	"testing"
+
+	"github.com/s4kibs4mi/rapunzel-blog/protos"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 /**
@@ -62,4 +64,27 @@ func TestUserServer_Login(t *testing.T) {
 		return
 	}
 	fmt.Println(resp)
+}
+
+func TestUserProfile(t *testing.T) {
+	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	defer conn.Close()
+	token := "c6502710-67e7-404f-8149-6f5275cf5372"
+	client := protos.NewUserServiceClient(conn)
+	md := metadata.Pairs("Authorization", "Bearer "+token)
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	req := &protos.ReqProfile{
+		AccessToken: token,
+	}
+	p, err := client.Profile(ctx, req)
+	if err != nil {
+		t.Error(err)
+	}
+	if p.User == nil {
+		t.Error("Failed to fetch profile")
+	}
 }

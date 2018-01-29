@@ -2,8 +2,9 @@ package servers
 
 import (
 	"context"
-	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+
 	"github.com/s4kibs4mi/rapunzel-blog/api"
+	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
 )
 
 /**
@@ -28,8 +29,9 @@ func (u *UserServer) Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLog
 	return api.Login(ctx, params)
 }
 
+// Profile return a authenticated user profile
 func (u *UserServer) Profile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, error) {
-	return &pb.ResProfile{}, nil
+	return api.Profile(ctx, params)
 }
 
 func (u *UserServer) Update(ctx context.Context, params *pb.ReqUpdateUser) (*pb.ResUpdateUser, error) {

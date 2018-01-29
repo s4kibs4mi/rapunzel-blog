@@ -1,17 +1,18 @@
 package api
 
 import (
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	"context"
+	"net/http"
+	"time"
+
+	"github.com/goware/emailx"
+	"github.com/s4kibs4mi/rapunzel-blog/models"
+	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	"github.com/s4kibs4mi/rapunzel-blog/security"
 	"github.com/s4kibs4mi/rapunzel-blog/storage"
 	"github.com/satori/go.uuid"
-	"net/http"
-	"github.com/s4kibs4mi/rapunzel-blog/models"
 	"gopkg.in/mgo.v2/bson"
-	"time"
-	"github.com/s4kibs4mi/rapunzel-blog/security"
-	"github.com/goware/emailx"
 )
 
 /**
@@ -255,5 +256,43 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 				Details: "Couldn't process the request",
 			},
 		},
+	}, nil
+}
+
+// Profile return a authenticated user profile
+func Profile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+
+	aUsrID := security.ReadUserIDFromContext(ctx)
+	userData := storage.NewUserStorage()
+	usr := userData.FindByID(bson.ObjectIdHex(aUsrID)) // TODO: should return a error as second argument
+	if usr == nil {
+		return &pb.ResProfile{
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusInternalServerError,
+					Title:   "Something went wrong",
+					Details: "Faild to fetch authenticated user profile",
+				},
+			},
+		}, nil
+	}
+
+	return &pb.ResProfile{
+		User: &pb.User{
+			ID:         usr.ID.Hex(),
+			Name:       usr.Name,
+			Username:   usr.Username,
+			Email:      usr.Email,
+			Details:    usr.Details,
+			UserType:   string(usr.UserType),
+			UserStatus: string(usr.UserStatus),
+			CreatedAt:  usr.CreatedAt.String(),
+			UpdatedAt:  usr.UpdatedAt.String(),
+		},
+		Errors: nil,
 	}, nil
 }
