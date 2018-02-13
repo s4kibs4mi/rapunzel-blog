@@ -25,9 +25,9 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// Client API for UserService service
+// Client API for RapunzelBlogService service
 
-type UserServiceClient interface {
+type RapunzelBlogServiceClient interface {
 	Register(ctx context.Context, in *ReqRegistration, opts ...grpc.CallOption) (*ResRegistration, error)
 	Login(ctx context.Context, in *ReqLogin, opts ...grpc.CallOption) (*ResLogin, error)
 	Profile(ctx context.Context, in *ReqProfile, opts ...grpc.CallOption) (*ResProfile, error)
@@ -38,109 +38,229 @@ type UserServiceClient interface {
 	Logout(ctx context.Context, in *ReqUserLogout, opts ...grpc.CallOption) (*ResUserLogout, error)
 	ResetPasswordRequest(ctx context.Context, in *ReqResetPasswordRequest, opts ...grpc.CallOption) (*ResResetPasswordRequest, error)
 	ResetPassword(ctx context.Context, in *ReqResetPassword, opts ...grpc.CallOption) (*ResResetPassword, error)
+	CreatePost(ctx context.Context, in *ReqPostCreate, opts ...grpc.CallOption) (*ResPost, error)
+	UpdatePost(ctx context.Context, in *ReqPostUpdate, opts ...grpc.CallOption) (*ResPost, error)
+	DeletePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPostSuccess, error)
+	ChangePostStatus(ctx context.Context, in *ReqPostChangeStatus, opts ...grpc.CallOption) (*ResPost, error)
+	GetPost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error)
+	FavouritePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error)
+	GetPosts(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResPostList, error)
+	CreateComment(ctx context.Context, in *ReqCommentCreate, opts ...grpc.CallOption) (*ResComment, error)
+	UpdateComment(ctx context.Context, in *ReqCommentUpdate, opts ...grpc.CallOption) (*ResComment, error)
+	DeleteComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResCommentSuccess, error)
+	GetComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResComment, error)
+	GetComments(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResCommentList, error)
 }
 
-type userServiceClient struct {
+type rapunzelBlogServiceClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewUserServiceClient(cc *grpc.ClientConn) UserServiceClient {
-	return &userServiceClient{cc}
+func NewRapunzelBlogServiceClient(cc *grpc.ClientConn) RapunzelBlogServiceClient {
+	return &rapunzelBlogServiceClient{cc}
 }
 
-func (c *userServiceClient) Register(ctx context.Context, in *ReqRegistration, opts ...grpc.CallOption) (*ResRegistration, error) {
+func (c *rapunzelBlogServiceClient) Register(ctx context.Context, in *ReqRegistration, opts ...grpc.CallOption) (*ResRegistration, error) {
 	out := new(ResRegistration)
-	err := grpc.Invoke(ctx, "/protos.UserService/Register", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/Register", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) Login(ctx context.Context, in *ReqLogin, opts ...grpc.CallOption) (*ResLogin, error) {
+func (c *rapunzelBlogServiceClient) Login(ctx context.Context, in *ReqLogin, opts ...grpc.CallOption) (*ResLogin, error) {
 	out := new(ResLogin)
-	err := grpc.Invoke(ctx, "/protos.UserService/Login", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/Login", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) Profile(ctx context.Context, in *ReqProfile, opts ...grpc.CallOption) (*ResProfile, error) {
+func (c *rapunzelBlogServiceClient) Profile(ctx context.Context, in *ReqProfile, opts ...grpc.CallOption) (*ResProfile, error) {
 	out := new(ResProfile)
-	err := grpc.Invoke(ctx, "/protos.UserService/Profile", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/Profile", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) Update(ctx context.Context, in *ReqUpdateUser, opts ...grpc.CallOption) (*ResUpdateUser, error) {
+func (c *rapunzelBlogServiceClient) Update(ctx context.Context, in *ReqUpdateUser, opts ...grpc.CallOption) (*ResUpdateUser, error) {
 	out := new(ResUpdateUser)
-	err := grpc.Invoke(ctx, "/protos.UserService/Update", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/Update", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) ChangePassword(ctx context.Context, in *ReqChangePassword, opts ...grpc.CallOption) (*ResChangePassword, error) {
+func (c *rapunzelBlogServiceClient) ChangePassword(ctx context.Context, in *ReqChangePassword, opts ...grpc.CallOption) (*ResChangePassword, error) {
 	out := new(ResChangePassword)
-	err := grpc.Invoke(ctx, "/protos.UserService/ChangePassword", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/ChangePassword", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) ChangeStatus(ctx context.Context, in *ReqChangeUserStatus, opts ...grpc.CallOption) (*ResChangeUserStatus, error) {
+func (c *rapunzelBlogServiceClient) ChangeStatus(ctx context.Context, in *ReqChangeUserStatus, opts ...grpc.CallOption) (*ResChangeUserStatus, error) {
 	out := new(ResChangeUserStatus)
-	err := grpc.Invoke(ctx, "/protos.UserService/ChangeStatus", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/ChangeStatus", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) ChangeType(ctx context.Context, in *ReqChangeUserType, opts ...grpc.CallOption) (*ResChangeUserType, error) {
+func (c *rapunzelBlogServiceClient) ChangeType(ctx context.Context, in *ReqChangeUserType, opts ...grpc.CallOption) (*ResChangeUserType, error) {
 	out := new(ResChangeUserType)
-	err := grpc.Invoke(ctx, "/protos.UserService/ChangeType", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/ChangeType", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) Logout(ctx context.Context, in *ReqUserLogout, opts ...grpc.CallOption) (*ResUserLogout, error) {
+func (c *rapunzelBlogServiceClient) Logout(ctx context.Context, in *ReqUserLogout, opts ...grpc.CallOption) (*ResUserLogout, error) {
 	out := new(ResUserLogout)
-	err := grpc.Invoke(ctx, "/protos.UserService/Logout", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/Logout", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) ResetPasswordRequest(ctx context.Context, in *ReqResetPasswordRequest, opts ...grpc.CallOption) (*ResResetPasswordRequest, error) {
+func (c *rapunzelBlogServiceClient) ResetPasswordRequest(ctx context.Context, in *ReqResetPasswordRequest, opts ...grpc.CallOption) (*ResResetPasswordRequest, error) {
 	out := new(ResResetPasswordRequest)
-	err := grpc.Invoke(ctx, "/protos.UserService/ResetPasswordRequest", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/ResetPasswordRequest", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) ResetPassword(ctx context.Context, in *ReqResetPassword, opts ...grpc.CallOption) (*ResResetPassword, error) {
+func (c *rapunzelBlogServiceClient) ResetPassword(ctx context.Context, in *ReqResetPassword, opts ...grpc.CallOption) (*ResResetPassword, error) {
 	out := new(ResResetPassword)
-	err := grpc.Invoke(ctx, "/protos.UserService/ResetPassword", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/ResetPassword", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for UserService service
+func (c *rapunzelBlogServiceClient) CreatePost(ctx context.Context, in *ReqPostCreate, opts ...grpc.CallOption) (*ResPost, error) {
+	out := new(ResPost)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/CreatePost", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
-type UserServiceServer interface {
+func (c *rapunzelBlogServiceClient) UpdatePost(ctx context.Context, in *ReqPostUpdate, opts ...grpc.CallOption) (*ResPost, error) {
+	out := new(ResPost)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/UpdatePost", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) DeletePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPostSuccess, error) {
+	out := new(ResPostSuccess)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/DeletePost", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) ChangePostStatus(ctx context.Context, in *ReqPostChangeStatus, opts ...grpc.CallOption) (*ResPost, error) {
+	out := new(ResPost)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/ChangePostStatus", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) GetPost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error) {
+	out := new(ResPost)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/GetPost", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) FavouritePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error) {
+	out := new(ResPost)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/FavouritePost", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) GetPosts(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResPostList, error) {
+	out := new(ResPostList)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/GetPosts", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) CreateComment(ctx context.Context, in *ReqCommentCreate, opts ...grpc.CallOption) (*ResComment, error) {
+	out := new(ResComment)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/CreateComment", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) UpdateComment(ctx context.Context, in *ReqCommentUpdate, opts ...grpc.CallOption) (*ResComment, error) {
+	out := new(ResComment)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/UpdateComment", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) DeleteComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResCommentSuccess, error) {
+	out := new(ResCommentSuccess)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/DeleteComment", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) GetComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResComment, error) {
+	out := new(ResComment)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/GetComment", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapunzelBlogServiceClient) GetComments(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResCommentList, error) {
+	out := new(ResCommentList)
+	err := grpc.Invoke(ctx, "/protos.RapunzelBlogService/GetComments", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for RapunzelBlogService service
+
+type RapunzelBlogServiceServer interface {
 	Register(context.Context, *ReqRegistration) (*ResRegistration, error)
 	Login(context.Context, *ReqLogin) (*ResLogin, error)
 	Profile(context.Context, *ReqProfile) (*ResProfile, error)
@@ -151,569 +271,13 @@ type UserServiceServer interface {
 	Logout(context.Context, *ReqUserLogout) (*ResUserLogout, error)
 	ResetPasswordRequest(context.Context, *ReqResetPasswordRequest) (*ResResetPasswordRequest, error)
 	ResetPassword(context.Context, *ReqResetPassword) (*ResResetPassword, error)
-}
-
-func RegisterUserServiceServer(s *grpc.Server, srv UserServiceServer) {
-	s.RegisterService(&_UserService_serviceDesc, srv)
-}
-
-func _UserService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqRegistration)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).Register(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/Register",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Register(ctx, req.(*ReqRegistration))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqLogin)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).Login(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/Login",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Login(ctx, req.(*ReqLogin))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_Profile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqProfile)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).Profile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/Profile",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Profile(ctx, req.(*ReqProfile))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqUpdateUser)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).Update(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/Update",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Update(ctx, req.(*ReqUpdateUser))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqChangePassword)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).ChangePassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/ChangePassword",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).ChangePassword(ctx, req.(*ReqChangePassword))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_ChangeStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqChangeUserStatus)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).ChangeStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/ChangeStatus",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).ChangeStatus(ctx, req.(*ReqChangeUserStatus))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_ChangeType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqChangeUserType)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).ChangeType(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/ChangeType",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).ChangeType(ctx, req.(*ReqChangeUserType))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqUserLogout)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).Logout(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/Logout",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Logout(ctx, req.(*ReqUserLogout))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_ResetPasswordRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqResetPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).ResetPasswordRequest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/ResetPasswordRequest",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).ResetPasswordRequest(ctx, req.(*ReqResetPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqResetPassword)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).ResetPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.UserService/ResetPassword",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).ResetPassword(ctx, req.(*ReqResetPassword))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _UserService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "protos.UserService",
-	HandlerType: (*UserServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Register",
-			Handler:    _UserService_Register_Handler,
-		},
-		{
-			MethodName: "Login",
-			Handler:    _UserService_Login_Handler,
-		},
-		{
-			MethodName: "Profile",
-			Handler:    _UserService_Profile_Handler,
-		},
-		{
-			MethodName: "Update",
-			Handler:    _UserService_Update_Handler,
-		},
-		{
-			MethodName: "ChangePassword",
-			Handler:    _UserService_ChangePassword_Handler,
-		},
-		{
-			MethodName: "ChangeStatus",
-			Handler:    _UserService_ChangeStatus_Handler,
-		},
-		{
-			MethodName: "ChangeType",
-			Handler:    _UserService_ChangeType_Handler,
-		},
-		{
-			MethodName: "Logout",
-			Handler:    _UserService_Logout_Handler,
-		},
-		{
-			MethodName: "ResetPasswordRequest",
-			Handler:    _UserService_ResetPasswordRequest_Handler,
-		},
-		{
-			MethodName: "ResetPassword",
-			Handler:    _UserService_ResetPassword_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/services.proto",
-}
-
-// Client API for PostService service
-
-type PostServiceClient interface {
-	CreatePost(ctx context.Context, in *ReqPostCreate, opts ...grpc.CallOption) (*ResPost, error)
-	UpdatePost(ctx context.Context, in *ReqPostUpdate, opts ...grpc.CallOption) (*ResPost, error)
-	DeletePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPostSuccess, error)
-	ChangeStatus(ctx context.Context, in *ReqPostChangeStatus, opts ...grpc.CallOption) (*ResPost, error)
-	GetPost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error)
-	FavouritePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error)
-	GetPosts(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResPostList, error)
-}
-
-type postServiceClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewPostServiceClient(cc *grpc.ClientConn) PostServiceClient {
-	return &postServiceClient{cc}
-}
-
-func (c *postServiceClient) CreatePost(ctx context.Context, in *ReqPostCreate, opts ...grpc.CallOption) (*ResPost, error) {
-	out := new(ResPost)
-	err := grpc.Invoke(ctx, "/protos.PostService/CreatePost", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) UpdatePost(ctx context.Context, in *ReqPostUpdate, opts ...grpc.CallOption) (*ResPost, error) {
-	out := new(ResPost)
-	err := grpc.Invoke(ctx, "/protos.PostService/UpdatePost", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) DeletePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPostSuccess, error) {
-	out := new(ResPostSuccess)
-	err := grpc.Invoke(ctx, "/protos.PostService/DeletePost", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) ChangeStatus(ctx context.Context, in *ReqPostChangeStatus, opts ...grpc.CallOption) (*ResPost, error) {
-	out := new(ResPost)
-	err := grpc.Invoke(ctx, "/protos.PostService/ChangeStatus", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) GetPost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error) {
-	out := new(ResPost)
-	err := grpc.Invoke(ctx, "/protos.PostService/GetPost", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) FavouritePost(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResPost, error) {
-	out := new(ResPost)
-	err := grpc.Invoke(ctx, "/protos.PostService/FavouritePost", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *postServiceClient) GetPosts(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResPostList, error) {
-	out := new(ResPostList)
-	err := grpc.Invoke(ctx, "/protos.PostService/GetPosts", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for PostService service
-
-type PostServiceServer interface {
 	CreatePost(context.Context, *ReqPostCreate) (*ResPost, error)
 	UpdatePost(context.Context, *ReqPostUpdate) (*ResPost, error)
 	DeletePost(context.Context, *GetByID) (*ResPostSuccess, error)
-	ChangeStatus(context.Context, *ReqPostChangeStatus) (*ResPost, error)
+	ChangePostStatus(context.Context, *ReqPostChangeStatus) (*ResPost, error)
 	GetPost(context.Context, *GetByID) (*ResPost, error)
 	FavouritePost(context.Context, *GetByID) (*ResPost, error)
 	GetPosts(context.Context, *GetByQuery) (*ResPostList, error)
-}
-
-func RegisterPostServiceServer(s *grpc.Server, srv PostServiceServer) {
-	s.RegisterService(&_PostService_serviceDesc, srv)
-}
-
-func _PostService_CreatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqPostCreate)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).CreatePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/CreatePost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).CreatePost(ctx, req.(*ReqPostCreate))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_UpdatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqPostUpdate)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).UpdatePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/UpdatePost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).UpdatePost(ctx, req.(*ReqPostUpdate))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_DeletePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).DeletePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/DeletePost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).DeletePost(ctx, req.(*GetByID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_ChangeStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqPostChangeStatus)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).ChangeStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/ChangeStatus",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).ChangeStatus(ctx, req.(*ReqPostChangeStatus))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_GetPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).GetPost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/GetPost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).GetPost(ctx, req.(*GetByID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_FavouritePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).FavouritePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/FavouritePost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).FavouritePost(ctx, req.(*GetByID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PostService_GetPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).GetPosts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.PostService/GetPosts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).GetPosts(ctx, req.(*GetByQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _PostService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "protos.PostService",
-	HandlerType: (*PostServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreatePost",
-			Handler:    _PostService_CreatePost_Handler,
-		},
-		{
-			MethodName: "UpdatePost",
-			Handler:    _PostService_UpdatePost_Handler,
-		},
-		{
-			MethodName: "DeletePost",
-			Handler:    _PostService_DeletePost_Handler,
-		},
-		{
-			MethodName: "ChangeStatus",
-			Handler:    _PostService_ChangeStatus_Handler,
-		},
-		{
-			MethodName: "GetPost",
-			Handler:    _PostService_GetPost_Handler,
-		},
-		{
-			MethodName: "FavouritePost",
-			Handler:    _PostService_FavouritePost_Handler,
-		},
-		{
-			MethodName: "GetPosts",
-			Handler:    _PostService_GetPosts_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/services.proto",
-}
-
-// Client API for CommentService service
-
-type CommentServiceClient interface {
-	CreateComment(ctx context.Context, in *ReqCommentCreate, opts ...grpc.CallOption) (*ResComment, error)
-	UpdateComment(ctx context.Context, in *ReqCommentUpdate, opts ...grpc.CallOption) (*ResComment, error)
-	DeleteComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResCommentSuccess, error)
-	GetComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResComment, error)
-	GetComments(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResCommentList, error)
-}
-
-type commentServiceClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewCommentServiceClient(cc *grpc.ClientConn) CommentServiceClient {
-	return &commentServiceClient{cc}
-}
-
-func (c *commentServiceClient) CreateComment(ctx context.Context, in *ReqCommentCreate, opts ...grpc.CallOption) (*ResComment, error) {
-	out := new(ResComment)
-	err := grpc.Invoke(ctx, "/protos.CommentService/CreateComment", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *commentServiceClient) UpdateComment(ctx context.Context, in *ReqCommentUpdate, opts ...grpc.CallOption) (*ResComment, error) {
-	out := new(ResComment)
-	err := grpc.Invoke(ctx, "/protos.CommentService/UpdateComment", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *commentServiceClient) DeleteComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResCommentSuccess, error) {
-	out := new(ResCommentSuccess)
-	err := grpc.Invoke(ctx, "/protos.CommentService/DeleteComment", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *commentServiceClient) GetComment(ctx context.Context, in *GetByID, opts ...grpc.CallOption) (*ResComment, error) {
-	out := new(ResComment)
-	err := grpc.Invoke(ctx, "/protos.CommentService/GetComment", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *commentServiceClient) GetComments(ctx context.Context, in *GetByQuery, opts ...grpc.CallOption) (*ResCommentList, error) {
-	out := new(ResCommentList)
-	err := grpc.Invoke(ctx, "/protos.CommentService/GetComments", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for CommentService service
-
-type CommentServiceServer interface {
 	CreateComment(context.Context, *ReqCommentCreate) (*ResComment, error)
 	UpdateComment(context.Context, *ReqCommentUpdate) (*ResComment, error)
 	DeleteComment(context.Context, *GetByID) (*ResCommentSuccess, error)
@@ -721,123 +285,497 @@ type CommentServiceServer interface {
 	GetComments(context.Context, *GetByQuery) (*ResCommentList, error)
 }
 
-func RegisterCommentServiceServer(s *grpc.Server, srv CommentServiceServer) {
-	s.RegisterService(&_CommentService_serviceDesc, srv)
+func RegisterRapunzelBlogServiceServer(s *grpc.Server, srv RapunzelBlogServiceServer) {
+	s.RegisterService(&_RapunzelBlogService_serviceDesc, srv)
 }
 
-func _CommentService_CreateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqCommentCreate)
+func _RapunzelBlogService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqRegistration)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentServiceServer).CreateComment(ctx, in)
+		return srv.(RapunzelBlogServiceServer).Register(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.CommentService/CreateComment",
+		FullMethod: "/protos.RapunzelBlogService/Register",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).CreateComment(ctx, req.(*ReqCommentCreate))
+		return srv.(RapunzelBlogServiceServer).Register(ctx, req.(*ReqRegistration))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentService_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqCommentUpdate)
+func _RapunzelBlogService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqLogin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentServiceServer).UpdateComment(ctx, in)
+		return srv.(RapunzelBlogServiceServer).Login(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.CommentService/UpdateComment",
+		FullMethod: "/protos.RapunzelBlogService/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).UpdateComment(ctx, req.(*ReqCommentUpdate))
+		return srv.(RapunzelBlogServiceServer).Login(ctx, req.(*ReqLogin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentService_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RapunzelBlogService_Profile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqProfile)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).Profile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/Profile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).Profile(ctx, req.(*ReqProfile))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqUpdateUser)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/Update",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).Update(ctx, req.(*ReqUpdateUser))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqChangePassword)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).ChangePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/ChangePassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).ChangePassword(ctx, req.(*ReqChangePassword))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_ChangeStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqChangeUserStatus)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).ChangeStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/ChangeStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).ChangeStatus(ctx, req.(*ReqChangeUserStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_ChangeType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqChangeUserType)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).ChangeType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/ChangeType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).ChangeType(ctx, req.(*ReqChangeUserType))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqUserLogout)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/Logout",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).Logout(ctx, req.(*ReqUserLogout))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_ResetPasswordRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqResetPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).ResetPasswordRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/ResetPasswordRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).ResetPasswordRequest(ctx, req.(*ReqResetPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqResetPassword)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).ResetPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/ResetPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).ResetPassword(ctx, req.(*ReqResetPassword))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_CreatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqPostCreate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).CreatePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/CreatePost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).CreatePost(ctx, req.(*ReqPostCreate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_UpdatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqPostUpdate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).UpdatePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/UpdatePost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).UpdatePost(ctx, req.(*ReqPostUpdate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_DeletePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetByID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentServiceServer).DeleteComment(ctx, in)
+		return srv.(RapunzelBlogServiceServer).DeletePost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.CommentService/DeleteComment",
+		FullMethod: "/protos.RapunzelBlogService/DeletePost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).DeleteComment(ctx, req.(*GetByID))
+		return srv.(RapunzelBlogServiceServer).DeletePost(ctx, req.(*GetByID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentService_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RapunzelBlogService_ChangePostStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqPostChangeStatus)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).ChangePostStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/ChangePostStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).ChangePostStatus(ctx, req.(*ReqPostChangeStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_GetPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetByID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentServiceServer).GetComment(ctx, in)
+		return srv.(RapunzelBlogServiceServer).GetPost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.CommentService/GetComment",
+		FullMethod: "/protos.RapunzelBlogService/GetPost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).GetComment(ctx, req.(*GetByID))
+		return srv.(RapunzelBlogServiceServer).GetPost(ctx, req.(*GetByID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentService_GetComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RapunzelBlogService_FavouritePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).FavouritePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/FavouritePost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).FavouritePost(ctx, req.(*GetByID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_GetPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetByQuery)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentServiceServer).GetComments(ctx, in)
+		return srv.(RapunzelBlogServiceServer).GetPosts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.CommentService/GetComments",
+		FullMethod: "/protos.RapunzelBlogService/GetPosts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).GetComments(ctx, req.(*GetByQuery))
+		return srv.(RapunzelBlogServiceServer).GetPosts(ctx, req.(*GetByQuery))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _CommentService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "protos.CommentService",
-	HandlerType: (*CommentServiceServer)(nil),
+func _RapunzelBlogService_CreateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqCommentCreate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).CreateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/CreateComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).CreateComment(ctx, req.(*ReqCommentCreate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqCommentUpdate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).UpdateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/UpdateComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).UpdateComment(ctx, req.(*ReqCommentUpdate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).DeleteComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/DeleteComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).DeleteComment(ctx, req.(*GetByID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).GetComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/GetComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).GetComment(ctx, req.(*GetByID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapunzelBlogService_GetComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapunzelBlogServiceServer).GetComments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.RapunzelBlogService/GetComments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapunzelBlogServiceServer).GetComments(ctx, req.(*GetByQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _RapunzelBlogService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "protos.RapunzelBlogService",
+	HandlerType: (*RapunzelBlogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Register",
+			Handler:    _RapunzelBlogService_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _RapunzelBlogService_Login_Handler,
+		},
+		{
+			MethodName: "Profile",
+			Handler:    _RapunzelBlogService_Profile_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _RapunzelBlogService_Update_Handler,
+		},
+		{
+			MethodName: "ChangePassword",
+			Handler:    _RapunzelBlogService_ChangePassword_Handler,
+		},
+		{
+			MethodName: "ChangeStatus",
+			Handler:    _RapunzelBlogService_ChangeStatus_Handler,
+		},
+		{
+			MethodName: "ChangeType",
+			Handler:    _RapunzelBlogService_ChangeType_Handler,
+		},
+		{
+			MethodName: "Logout",
+			Handler:    _RapunzelBlogService_Logout_Handler,
+		},
+		{
+			MethodName: "ResetPasswordRequest",
+			Handler:    _RapunzelBlogService_ResetPasswordRequest_Handler,
+		},
+		{
+			MethodName: "ResetPassword",
+			Handler:    _RapunzelBlogService_ResetPassword_Handler,
+		},
+		{
+			MethodName: "CreatePost",
+			Handler:    _RapunzelBlogService_CreatePost_Handler,
+		},
+		{
+			MethodName: "UpdatePost",
+			Handler:    _RapunzelBlogService_UpdatePost_Handler,
+		},
+		{
+			MethodName: "DeletePost",
+			Handler:    _RapunzelBlogService_DeletePost_Handler,
+		},
+		{
+			MethodName: "ChangePostStatus",
+			Handler:    _RapunzelBlogService_ChangePostStatus_Handler,
+		},
+		{
+			MethodName: "GetPost",
+			Handler:    _RapunzelBlogService_GetPost_Handler,
+		},
+		{
+			MethodName: "FavouritePost",
+			Handler:    _RapunzelBlogService_FavouritePost_Handler,
+		},
+		{
+			MethodName: "GetPosts",
+			Handler:    _RapunzelBlogService_GetPosts_Handler,
+		},
+		{
 			MethodName: "CreateComment",
-			Handler:    _CommentService_CreateComment_Handler,
+			Handler:    _RapunzelBlogService_CreateComment_Handler,
 		},
 		{
 			MethodName: "UpdateComment",
-			Handler:    _CommentService_UpdateComment_Handler,
+			Handler:    _RapunzelBlogService_UpdateComment_Handler,
 		},
 		{
 			MethodName: "DeleteComment",
-			Handler:    _CommentService_DeleteComment_Handler,
+			Handler:    _RapunzelBlogService_DeleteComment_Handler,
 		},
 		{
 			MethodName: "GetComment",
-			Handler:    _CommentService_GetComment_Handler,
+			Handler:    _RapunzelBlogService_GetComment_Handler,
 		},
 		{
 			MethodName: "GetComments",
-			Handler:    _CommentService_GetComments_Handler,
+			Handler:    _RapunzelBlogService_GetComments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -847,40 +785,39 @@ var _CommentService_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("protos/services.proto", fileDescriptor4) }
 
 var fileDescriptor4 = []byte{
-	// 553 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x94, 0xcf, 0x6e, 0xd3, 0x40,
-	0x10, 0xc6, 0x2d, 0x50, 0xff, 0x68, 0x4a, 0x0a, 0x6c, 0xd3, 0xd2, 0x6e, 0x25, 0x2a, 0xf9, 0xde,
-	0x20, 0x25, 0xa2, 0x20, 0x21, 0x8a, 0xd4, 0x04, 0x02, 0x28, 0x87, 0x90, 0xd0, 0x4b, 0x6f, 0x6e,
-	0x3a, 0x04, 0x43, 0xea, 0x4d, 0x77, 0xd6, 0x45, 0xe1, 0x2d, 0x78, 0x07, 0xde, 0x84, 0x17, 0x43,
-	0xf6, 0xac, 0xe3, 0x75, 0xbd, 0xe9, 0x29, 0xca, 0xef, 0x9b, 0x6f, 0x66, 0x3c, 0x33, 0x36, 0xec,
-	0xce, 0xb5, 0x32, 0x8a, 0x5e, 0x10, 0xea, 0xdb, 0x78, 0x82, 0xd4, 0xca, 0xff, 0x8b, 0x75, 0xc6,
-	0xf2, 0xa9, 0x95, 0x53, 0x42, 0xcd, 0xd2, 0x12, 0xcd, 0x15, 0x19, 0x8b, 0x9a, 0x16, 0x4d, 0xd4,
-	0xf5, 0x35, 0x26, 0x05, 0xdd, 0x71, 0xa8, 0x4a, 0x18, 0xb6, 0xff, 0xae, 0xc1, 0xd6, 0x39, 0xa1,
-	0x1e, 0x73, 0x3d, 0x71, 0x0a, 0x9b, 0x23, 0x9c, 0xc6, 0x64, 0x50, 0x8b, 0x67, 0x1c, 0x43, 0xad,
-	0x11, 0xde, 0x30, 0xd4, 0x91, 0x89, 0x55, 0x22, 0x1d, 0x81, 0x5c, 0x21, 0x0c, 0xc4, 0x31, 0xac,
-	0x0d, 0xd4, 0x34, 0x4e, 0xc4, 0x13, 0xc7, 0x9c, 0x13, 0xe9, 0x10, 0xca, 0x49, 0x18, 0x88, 0x0e,
-	0x6c, 0x0c, 0xb5, 0xfa, 0x16, 0xcf, 0x50, 0x08, 0xc7, 0x60, 0x99, 0x74, 0x18, 0x59, 0x16, 0x06,
-	0xe2, 0x35, 0xac, 0x9f, 0xcf, 0xaf, 0x22, 0x83, 0x62, 0xd7, 0xf1, 0x30, 0xca, 0x9e, 0x45, 0x3a,
-	0x98, 0x4a, 0x1c, 0x06, 0xe2, 0x23, 0x6c, 0x77, 0xbf, 0x47, 0xc9, 0x14, 0x87, 0x11, 0xd1, 0x2f,
-	0xa5, 0xaf, 0xc4, 0x81, 0x93, 0xa1, 0x2a, 0x49, 0x47, 0xa2, 0xaa, 0x14, 0x06, 0xe2, 0x33, 0x3c,
-	0x62, 0x36, 0x36, 0x91, 0x49, 0x49, 0x1c, 0xd6, 0xf2, 0xe4, 0x53, 0xcd, 0x45, 0x79, 0x58, 0xcb,
-	0x54, 0x8a, 0x61, 0x20, 0x7a, 0x00, 0x4c, 0xbf, 0x2e, 0xe6, 0xe8, 0xe9, 0x28, 0x0b, 0xce, 0x24,
-	0x4f, 0x47, 0x85, 0xc4, 0x53, 0x19, 0xa8, 0xa9, 0x4a, 0x4d, 0x75, 0x2a, 0x84, 0x9a, 0x71, 0x75,
-	0x2a, 0x4b, 0x1c, 0x06, 0xe2, 0x02, 0x9a, 0x23, 0x24, 0x34, 0xc5, 0xe3, 0x8d, 0xf0, 0x26, 0x45,
-	0x32, 0xe2, 0xa8, 0xb2, 0xff, 0x7a, 0x80, 0x3c, 0xaa, 0xdc, 0x41, 0x3d, 0x20, 0x0c, 0xc4, 0x7b,
-	0x68, 0x54, 0x14, 0xb1, 0xbf, 0x2a, 0xa9, 0xdc, 0x5f, 0x95, 0x2d, 0x0c, 0xda, 0x7f, 0x1e, 0xc2,
-	0xd6, 0x50, 0x91, 0x29, 0xce, 0xf4, 0x04, 0xa0, 0xab, 0x31, 0x32, 0x98, 0xc1, 0xca, 0x03, 0x67,
-	0x80, 0x25, 0xf9, 0xd8, 0xbd, 0x1e, 0x95, 0xb7, 0x73, 0x02, 0xc0, 0x07, 0xe1, 0xf5, 0xb1, 0xe4,
-	0xf3, 0xbd, 0x02, 0xe8, 0xe1, 0x0c, 0xad, 0x6f, 0x19, 0xd0, 0x47, 0x73, 0xb6, 0xf8, 0xd4, 0x93,
-	0x7b, 0x77, 0x1c, 0xe3, 0x74, 0x32, 0x41, 0xca, 0x76, 0x7b, 0x7a, 0xcf, 0x9d, 0xe4, 0xad, 0x3a,
-	0xa2, 0xaf, 0xf0, 0x31, 0x6c, 0xf4, 0xd1, 0xf8, 0xab, 0x7a, 0xc2, 0x3b, 0xd0, 0xf8, 0x10, 0xdd,
-	0xaa, 0x54, 0xc7, 0xab, 0x5a, 0xf5, 0x98, 0x5e, 0xc2, 0xa6, 0xad, 0x41, 0xe5, 0x5b, 0x98, 0xc7,
-	0x7f, 0x49, 0x51, 0x2f, 0xe4, 0xce, 0x1d, 0xcb, 0x20, 0xce, 0x6c, 0xed, 0x7f, 0x0f, 0x60, 0xbb,
-	0xcb, 0x5f, 0x98, 0x62, 0x2d, 0xef, 0xa0, 0xc1, 0xb3, 0xb7, 0xbc, 0xb2, 0x6d, 0xcb, 0xec, 0x72,
-	0xdc, 0x57, 0xdb, 0x2a, 0x61, 0x90, 0x25, 0xe0, 0x25, 0xdc, 0x93, 0xc0, 0x6e, 0xc9, 0x9f, 0xe0,
-	0x2d, 0x34, 0x78, 0x51, 0x45, 0x82, 0xda, 0x00, 0x0e, 0xea, 0xbe, 0x72, 0x5d, 0x1d, 0x80, 0x3e,
-	0x9a, 0x95, 0x5e, 0x7f, 0xcd, 0x37, 0xb0, 0x55, 0x9a, 0xfc, 0x23, 0xdc, 0xab, 0x1b, 0x79, 0x8a,
-	0x67, 0xcf, 0xa1, 0x99, 0xc4, 0xc9, 0x8f, 0xa8, 0x45, 0xd1, 0xcf, 0xf8, 0xb2, 0xa5, 0xa3, 0x79,
-	0x9a, 0xfc, 0xc6, 0xd9, 0x85, 0xfd, 0xe2, 0x5f, 0xf2, 0x6f, 0xe7, 0x7f, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0xd9, 0x45, 0xfe, 0x1e, 0x19, 0x06, 0x00, 0x00,
+	// 539 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x94, 0xd1, 0x6f, 0x12, 0x4f,
+	0x10, 0xc7, 0xef, 0xe5, 0xd7, 0x36, 0xf3, 0x13, 0xad, 0x03, 0xad, 0xed, 0x36, 0xb1, 0xc9, 0xbd,
+	0x17, 0x13, 0x89, 0xd5, 0xc4, 0xa8, 0x09, 0xa0, 0xa8, 0xe1, 0x01, 0xc1, 0xbe, 0xf4, 0xed, 0x4a,
+	0x47, 0x3c, 0xa5, 0xb7, 0x74, 0x67, 0xaf, 0x06, 0xff, 0x61, 0xff, 0x0d, 0x73, 0x37, 0x0b, 0xec,
+	0xf5, 0x16, 0x9f, 0x08, 0x9f, 0xef, 0x7c, 0x67, 0x76, 0x67, 0xe6, 0x16, 0x0e, 0x16, 0x46, 0x5b,
+	0xcd, 0xcf, 0x98, 0xcc, 0x5d, 0x3a, 0x25, 0x6e, 0x97, 0xff, 0x71, 0x47, 0xb0, 0x7a, 0xec, 0xe4,
+	0x9c, 0xc9, 0x88, 0xb4, 0x46, 0x0b, 0xcd, 0xd6, 0xa1, 0x96, 0x43, 0x53, 0x7d, 0x73, 0x43, 0xd9,
+	0x8a, 0x36, 0x3d, 0xaa, 0x33, 0x81, 0xcf, 0xff, 0x00, 0x34, 0xc7, 0xc9, 0x22, 0xcf, 0x7e, 0xd3,
+	0xbc, 0x3b, 0xd7, 0xb3, 0x89, 0xd4, 0xc5, 0xb7, 0xb0, 0x37, 0xa6, 0x59, 0xca, 0x96, 0x0c, 0x3e,
+	0x91, 0x58, 0x6e, 0x8f, 0xe9, 0x56, 0xa0, 0x49, 0x6c, 0xaa, 0x33, 0xe5, 0x09, 0xec, 0x0b, 0x71,
+	0x84, 0x67, 0xf0, 0xdf, 0x50, 0xcf, 0xd2, 0x0c, 0xf7, 0x3d, 0x73, 0x49, 0x94, 0x47, 0xb8, 0x24,
+	0x71, 0x84, 0x1d, 0xd8, 0x1d, 0x19, 0xfd, 0x2d, 0x9d, 0x13, 0xa2, 0x67, 0x70, 0x4c, 0x79, 0x8c,
+	0x1d, 0x8b, 0x23, 0x7c, 0x05, 0x3b, 0x17, 0x8b, 0xeb, 0xc4, 0x12, 0x1e, 0x78, 0x1e, 0x41, 0x17,
+	0x4c, 0x46, 0x79, 0x98, 0x37, 0x38, 0x8e, 0xf0, 0x23, 0x3c, 0xec, 0x7d, 0x4f, 0xb2, 0x19, 0x8d,
+	0x12, 0xe6, 0x5f, 0xda, 0x5c, 0xe3, 0xb1, 0x97, 0xa1, 0x2a, 0x29, 0x4f, 0xe2, 0xaa, 0x14, 0x47,
+	0xf8, 0x19, 0x1e, 0x08, 0x9b, 0xd8, 0xc4, 0xe6, 0x8c, 0x27, 0xb5, 0x3c, 0x45, 0x49, 0x11, 0xd5,
+	0x49, 0x2d, 0xd3, 0x46, 0x8c, 0x23, 0xec, 0x03, 0x08, 0xfd, 0xba, 0x5c, 0x50, 0xe0, 0x44, 0x45,
+	0x70, 0x21, 0x05, 0x4e, 0xb4, 0x92, 0xa4, 0x2b, 0x43, 0x3d, 0xd3, 0xb9, 0xad, 0x76, 0x85, 0xc9,
+	0x08, 0xae, 0x76, 0x65, 0x8d, 0xe3, 0x08, 0x2f, 0xa1, 0x35, 0x26, 0x26, 0xbb, 0xba, 0xde, 0x98,
+	0x6e, 0x73, 0x62, 0x8b, 0xa7, 0x95, 0xf9, 0xd7, 0x03, 0xd4, 0x69, 0x65, 0x0f, 0xea, 0x01, 0x71,
+	0x84, 0xef, 0xa1, 0x51, 0x51, 0xf0, 0x68, 0x5b, 0x52, 0x75, 0xb4, 0x2d, 0x5b, 0x1c, 0xe1, 0x39,
+	0x40, 0xcf, 0x50, 0x62, 0x69, 0xa4, 0xb9, 0x7a, 0xc1, 0x02, 0x88, 0xa4, 0x1e, 0xf9, 0xdb, 0xa2,
+	0xcb, 0xf2, 0xe7, 0x00, 0xb2, 0x00, 0x41, 0x9f, 0x48, 0x21, 0xdf, 0x4b, 0x80, 0x3e, 0xcd, 0xc9,
+	0xf9, 0xd6, 0x01, 0x03, 0xb2, 0xdd, 0xe5, 0xa7, 0xbe, 0x3a, 0xbc, 0xe7, 0x98, 0xe4, 0xd3, 0x29,
+	0x71, 0x31, 0xcb, 0x2e, 0xec, 0xbb, 0x5d, 0x29, 0x70, 0x7d, 0x37, 0xca, 0xe3, 0x7a, 0x8b, 0x13,
+	0x2a, 0x7e, 0x06, 0xbb, 0x03, 0xb2, 0xe1, 0xca, 0x81, 0xf0, 0x0e, 0x34, 0x3e, 0x24, 0x77, 0x3a,
+	0x37, 0xe9, 0xb6, 0xe3, 0x06, 0x4c, 0x2f, 0x60, 0xcf, 0xd5, 0xe0, 0xcd, 0x97, 0x57, 0xc6, 0x7f,
+	0xc9, 0xc9, 0x2c, 0x55, 0xf3, 0x9e, 0x65, 0x98, 0x96, 0xb6, 0x77, 0xd0, 0x90, 0x66, 0xf7, 0xe4,
+	0x89, 0xa9, 0x8c, 0xd3, 0x31, 0x37, 0x0d, 0xff, 0xdb, 0x75, 0x8a, 0x24, 0x90, 0xae, 0xff, 0x23,
+	0x81, 0x1b, 0x4b, 0x38, 0xc1, 0x1b, 0x68, 0xc8, 0x64, 0x56, 0x09, 0x6a, 0xb7, 0x3d, 0xae, 0xfb,
+	0x36, 0xf3, 0xe9, 0x00, 0x0c, 0xc8, 0x6e, 0xf5, 0x86, 0x6b, 0xbe, 0x86, 0xff, 0x37, 0xa6, 0x70,
+	0xbf, 0x0e, 0xeb, 0x46, 0x69, 0x59, 0xf7, 0x29, 0xb4, 0xb2, 0x34, 0xfb, 0x91, 0xb4, 0x39, 0xf9,
+	0x99, 0x5e, 0xb5, 0x8d, 0x7b, 0x74, 0x2f, 0xdd, 0xd3, 0x7e, 0x25, 0xbf, 0x9d, 0xbf, 0x01, 0x00,
+	0x00, 0xff, 0xff, 0x63, 0x7b, 0xc4, 0x1b, 0x02, 0x06, 0x00, 0x00,
 }

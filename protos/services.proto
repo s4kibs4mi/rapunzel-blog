@@ -17,7 +17,7 @@ import "protos/common.proto";
  * := Coffee : Dream : Code
  */
 
-service UserService {
+service RapunzelBlogService {
     rpc Register (ReqRegistration) returns (ResRegistration) {
     }
     rpc Login (ReqLogin) returns (ResLogin) {
@@ -38,16 +38,13 @@ service UserService {
     }
     rpc ResetPassword (ReqResetPassword) returns (ResResetPassword) {
     }
-}
-
-service PostService {
     rpc CreatePost (ReqPostCreate) returns (ResPost) {
     }
     rpc UpdatePost (ReqPostUpdate) returns (ResPost) {
     }
     rpc DeletePost (GetByID) returns (ResPostSuccess) {
     }
-    rpc ChangeStatus (ReqPostChangeStatus) returns (ResPost) {
+    rpc ChangePostStatus (ReqPostChangeStatus) returns (ResPost) {
     }
     rpc GetPost (GetByID) returns (ResPost) {
     }
@@ -55,9 +52,6 @@ service PostService {
     }
     rpc GetPosts (GetByQuery) returns (ResPostList) {
     }
-}
-
-service CommentService {
     rpc CreateComment (ReqCommentCreate) returns (ResComment) {
     }
     rpc UpdateComment (ReqCommentUpdate) returns (ResComment) {
