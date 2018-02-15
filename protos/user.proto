@@ -80,7 +80,8 @@ message ResChangePassword {
 }
 
 message ReqChangeUserStatus {
-    string NewStatus = 1;
+    string UserID = 1;
+    string NewStatus = 2;
 }
 
 message ResChangeUserStatus {

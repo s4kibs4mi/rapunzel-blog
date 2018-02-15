@@ -312,3 +312,73 @@ func GetProfile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, err
 		},
 	}, nil
 }
+
+func ChangeUserStatus(ctx context.Context, params *pb.ReqChangeUserStatus) (*pb.ResChangeUserStatus, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+	if !security.HasPermissionAsParent(ctx) {
+		return nil, security.GetUnauthorisedError()
+	}
+	if !isUserStatusValid(params.NewStatus) {
+		return &pb.ResChangeUserStatus{
+			Success: false,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid data",
+					Details: "Invalid user status",
+				},
+			},
+		}, nil
+	}
+	if !bson.IsObjectIdHex(params.UserID) {
+		return &pb.ResChangeUserStatus{
+			Success: false,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid data",
+					Details: "Invalid userID",
+				},
+			},
+		}, nil
+	}
+
+	userStorage := storage.NewUserStorage()
+	u := userStorage.FindByID(bson.ObjectIdHex(params.UserID))
+	if u == nil {
+		return &pb.ResChangeUserStatus{
+			Success: false,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusNotFound,
+					Title:   "User not found",
+					Details: "User not found",
+				},
+			},
+		}, nil
+	}
+
+	u.UserStatus = models.UserStatus(params.NewStatus)
+	if userStorage.Update(u) {
+		return &pb.ResChangeUserStatus{
+			Success: true,
+			Errors:  nil,
+		}, nil
+	}
+	return &pb.ResChangeUserStatus{
+		Success: false,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusInternalServerError,
+				Title:   "Something went wrong",
+				Details: "Couldn't process the request",
+			},
+		},
+	}, nil
+}

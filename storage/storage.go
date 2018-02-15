@@ -16,7 +16,7 @@ import (
 type UserStorage interface {
 	Init() bool
 	Save(user models.User) bool
-	Update(user models.User) bool
+	Update(user *models.User) bool
 	Delete(user models.User) bool
 	Count() int
 	FindByID(ID bson.ObjectId) *models.User

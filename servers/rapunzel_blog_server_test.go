@@ -266,3 +266,21 @@ func TestRapunzelBlogServer_GetProfile(t *testing.T) {
 	}
 	fmt.Println(resp.User)
 }
+
+func TestRapunzelBlogServer_ChangeUserStatus(t *testing.T) {
+	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	resp, e := client.ChangeStatus(ctx, &protos.ReqChangeUserStatus{
+		UserID:    "5a854a6329c4467ceb3fc892",
+		NewStatus: "verified",
+	})
+	if e != nil {
+		t.Error(e)
+		return
+	}
+	if resp.Success == false {
+		t.Error(resp.Errors)
+		return
+	}
+	fmt.Println(resp.Success)
+}

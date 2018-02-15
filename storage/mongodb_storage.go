@@ -28,8 +28,8 @@ func (db *MongodbStorage) Save(user models.User) bool {
 	return true
 }
 
-func (db *MongodbStorage) Update(user models.User) bool {
-	if err := conn.GetUserCollection().Update(user, user); err != nil {
+func (db *MongodbStorage) Update(user *models.User) bool {
+	if err := conn.GetUserCollection().UpdateId(user.ID, user); err != nil {
 		return false
 	}
 	return true
