@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc/metadata"
+	"os"
 )
 
 /**
@@ -16,14 +17,20 @@ import (
  * := Coffee : Dream : Code
  */
 
-func TestUserServer_Register(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
+var conn *grpc.ClientConn
+var client protos.RapunzelBlogServiceClient
+var err error
+
+func init() {
+	conn, err = grpc.Dial(":8090", grpc.WithInsecure())
 	if err != nil {
-		t.Error(err)
-		return
+		fmt.Println("Couldn't initialize connection, ", err)
+		os.Exit(-1)
 	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+	client = protos.NewRapunzelBlogServiceClient(conn)
+}
+
+func TestRapunzelBlogServer_Register(t *testing.T) {
 	resp, e := client.Register(context.Background(), &protos.ReqRegistration{
 		Name:     "Sakib Sami",
 		Email:    "root@sakib.ninja",
@@ -42,14 +49,7 @@ func TestUserServer_Register(t *testing.T) {
 	fmt.Println(resp)
 }
 
-func TestUserServer_Login(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_Login(t *testing.T) {
 	resp, e := client.Login(context.Background(), &protos.ReqLogin{
 		Username: "s4kibs4mi",
 		Password: "123456789",
@@ -65,14 +65,7 @@ func TestUserServer_Login(t *testing.T) {
 	fmt.Println(resp)
 }
 
-func TestPostServer_CreatePost(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_CreatePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.CreatePost(ctx, &protos.ReqPostCreate{
@@ -92,14 +85,7 @@ func TestPostServer_CreatePost(t *testing.T) {
 	fmt.Println(resp)
 }
 
-func TestPostServer_UpdatePost(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_UpdatePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.UpdatePost(ctx, &protos.ReqPostUpdate{
@@ -120,14 +106,7 @@ func TestPostServer_UpdatePost(t *testing.T) {
 	fmt.Println(resp)
 }
 
-func TestPostServer_GetPosts(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_GetPosts(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.GetPosts(ctx, &protos.GetByQuery{
@@ -151,14 +130,7 @@ func TestPostServer_GetPosts(t *testing.T) {
 	}
 }
 
-func TestPostServer_GetPost(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_GetPost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.GetPost(ctx, &protos.GetByID{
@@ -175,14 +147,7 @@ func TestPostServer_GetPost(t *testing.T) {
 	fmt.Println(resp.Post)
 }
 
-func TestPostServer_FavouritePost(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_FavouritePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.FavouritePost(ctx, &protos.GetByID{
@@ -199,14 +164,7 @@ func TestPostServer_FavouritePost(t *testing.T) {
 	fmt.Println(resp.Post)
 }
 
-func TestPostServer_DeletePost(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_DeletePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.DeletePost(ctx, &protos.GetByID{
@@ -223,14 +181,7 @@ func TestPostServer_DeletePost(t *testing.T) {
 	fmt.Println(resp.Success)
 }
 
-func TestPostServer_ChangeStatus(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_ChangeStatus(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.ChangePostStatus(ctx, &protos.ReqPostChangeStatus{
@@ -248,14 +199,7 @@ func TestPostServer_ChangeStatus(t *testing.T) {
 	fmt.Println(resp.Post)
 }
 
-func TestCommentServer_CreateComment(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_CreateComment(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.CreateComment(ctx, &protos.ReqCommentCreate{
@@ -274,14 +218,7 @@ func TestCommentServer_CreateComment(t *testing.T) {
 	fmt.Println(resp)
 }
 
-func TestCommentServer_GetComments(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_GetComments(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.GetComments(ctx, &protos.GetByQuery{
@@ -296,14 +233,7 @@ func TestCommentServer_GetComments(t *testing.T) {
 	}
 }
 
-func TestCommentServer_GetComment(t *testing.T) {
-	conn, err := grpc.Dial(":8090", grpc.WithInsecure())
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	defer conn.Close()
-	client := protos.NewRapunzelBlogServiceClient(conn)
+func TestRapunzelBlogServer_GetComment(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.GetComment(ctx, &protos.GetByID{
@@ -318,4 +248,21 @@ func TestCommentServer_GetComment(t *testing.T) {
 		return
 	}
 	fmt.Println(resp.Comment)
+}
+
+func TestRapunzelBlogServer_GetProfile(t *testing.T) {
+	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	resp, e := client.Profile(ctx, &protos.ReqProfile{
+
+	})
+	if e != nil {
+		t.Error(e)
+		return
+	}
+	if resp.User == nil {
+		t.Error(resp.Errors)
+		return
+	}
+	fmt.Println(resp.User)
 }

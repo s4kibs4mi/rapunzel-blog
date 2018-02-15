@@ -29,7 +29,7 @@ func (s *RapunzelBlogServer) Login(ctx context.Context, params *pb.ReqLogin) (*p
 }
 
 func (s *RapunzelBlogServer) Profile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, error) {
-	return &pb.ResProfile{}, nil
+	return api.GetProfile(ctx, params)
 }
 
 func (s *RapunzelBlogServer) Update(ctx context.Context, params *pb.ReqUpdateUser) (*pb.ResUpdateUser, error) {

@@ -257,3 +257,37 @@ func Login(ctx context.Context, params *pb.ReqLogin) (*pb.ResLogin, error) {
 		},
 	}, nil
 }
+
+func GetProfile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, error) {
+	if !security.IsAuthenticated(ctx) {
+		return nil, security.GetUnauthenticatedError()
+	}
+	userData := storage.NewUserStorage()
+	user := userData.FindByID(bson.ObjectIdHex(security.ReadUserIDFromContext(ctx)))
+	if user != nil {
+		return &pb.ResProfile{
+			User: &pb.User{
+				ID:         user.ID.Hex(),
+				Name:       user.Name,
+				Username:   user.Username,
+				Email:      user.Email,
+				Details:    user.Details,
+				UserStatus: string(user.UserStatus),
+				UserType:   string(user.UserType),
+				CreatedAt:  user.CreatedAt.String(),
+				UpdatedAt:  user.UpdatedAt.String(),
+			},
+		}, nil
+	}
+	return &pb.ResProfile{
+		User: nil,
+		Errors: []*pb.Error{
+			{
+				ID:      uuid.NewV4().String(),
+				Code:    http.StatusNotFound,
+				Title:   "User not found",
+				Details: "User not found",
+			},
+		},
+	}, nil
+}
