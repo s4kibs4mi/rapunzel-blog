@@ -32,9 +32,9 @@ func init() {
 
 func TestRapunzelBlogServer_Register(t *testing.T) {
 	resp, e := client.Register(context.Background(), &protos.ReqRegistration{
-		Name:     "Sakib Sami",
-		Email:    "root@sakib.ninja",
-		Username: "s4kibs4mi",
+		Name:     "Nur",
+		Email:    "nur@sakib.ninja",
+		Username: "nur",
 		Password: "12345678",
 		Details:  "Hello World",
 	})
@@ -254,7 +254,7 @@ func TestRapunzelBlogServer_GetProfile(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	resp, e := client.Profile(ctx, &protos.ReqProfile{
-
+		UserID: "5a854a6329c4467ceb3fc892",
 	})
 	if e != nil {
 		t.Error(e)

@@ -51,7 +51,7 @@ message ResLogin {
 }
 
 message ReqProfile {
-    string AccessToken = 1;
+    string UserID = 1;
 }
 
 message ResProfile {

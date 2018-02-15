@@ -12,6 +12,7 @@ import (
 	"time"
 	"github.com/s4kibs4mi/rapunzel-blog/security"
 	"github.com/goware/emailx"
+	"strings"
 )
 
 /**
@@ -262,8 +263,28 @@ func GetProfile(ctx context.Context, params *pb.ReqProfile) (*pb.ResProfile, err
 	if !security.IsAuthenticated(ctx) {
 		return nil, security.GetUnauthenticatedError()
 	}
+
 	userData := storage.NewUserStorage()
-	user := userData.FindByID(bson.ObjectIdHex(security.ReadUserIDFromContext(ctx)))
+
+	params.UserID = strings.TrimSpace(params.UserID)
+	if params.UserID != "" && !bson.IsObjectIdHex(params.UserID) {
+		return &pb.ResProfile{
+			User: nil,
+			Errors: []*pb.Error{
+				{
+					ID:      uuid.NewV4().String(),
+					Code:    http.StatusBadRequest,
+					Title:   "Invalid data",
+					Details: "Invalid userID",
+				},
+			},
+		}, nil
+	}
+	if params.UserID == "" {
+		params.UserID = security.ReadUserIDFromContext(ctx)
+	}
+	user := userData.FindByID(bson.ObjectIdHex(params.UserID))
+
 	if user != nil {
 		return &pb.ResProfile{
 			User: &pb.User{
