@@ -284,3 +284,21 @@ func TestRapunzelBlogServer_ChangeUserStatus(t *testing.T) {
 	}
 	fmt.Println(resp.Success)
 }
+
+func TestRapunzelBlogServer_ChangeUserType(t *testing.T) {
+	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	resp, e := client.ChangeType(ctx, &protos.ReqChangeUserType{
+		UserID:  "5a854a6329c4467ceb3fc892",
+		NewType: "family",
+	})
+	if e != nil {
+		t.Error(e)
+		return
+	}
+	if resp.Success == false {
+		t.Error(resp.Errors)
+		return
+	}
+	fmt.Println(resp.Success)
+}

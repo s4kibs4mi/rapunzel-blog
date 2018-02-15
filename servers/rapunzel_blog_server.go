@@ -45,7 +45,7 @@ func (s *RapunzelBlogServer) ChangeStatus(ctx context.Context, params *pb.ReqCha
 }
 
 func (s *RapunzelBlogServer) ChangeType(ctx context.Context, params *pb.ReqChangeUserType) (*pb.ResChangeUserType, error) {
-	return &pb.ResChangeUserType{}, nil
+	return api.ChangeUserType(ctx, params)
 }
 
 func (s *RapunzelBlogServer) Logout(ctx context.Context, params *pb.ReqUserLogout) (*pb.ResUserLogout, error) {

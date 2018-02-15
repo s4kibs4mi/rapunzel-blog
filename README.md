@@ -11,7 +11,7 @@ A Blogging platform based on gRPC written in Golang
 `[+]` Login<br/>
 `[+]` Get User Profile<br/>
 `[+]` Change User Status<br/>
-`[-]` Change User Type<br/>
+`[+]` Change User Type<br/>
 `[-]` Change Password<br/>
 `[-]` Reset Password Request<br/>
 `[-]` Reset Password<br/>

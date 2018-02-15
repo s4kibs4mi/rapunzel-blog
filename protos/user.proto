@@ -90,7 +90,8 @@ message ResChangeUserStatus {
 }
 
 message ReqChangeUserType {
-    string UserType = 1;
+    string UserID = 1;
+    string NewType = 2;
 }
 
 message ResChangeUserType {

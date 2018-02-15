@@ -11,3 +11,13 @@ func isUserStatusValid(status string) bool {
 	}
 	return false
 }
+
+func isUserTypeValid(uType string) bool {
+	switch {
+	case uType == string(models.UserTypeParent) ||
+		uType == string(models.UserTypeFamily) ||
+		uType == string(models.UserTypeGhost):
+		return true
+	}
+	return false
+}
