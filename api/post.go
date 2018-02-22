@@ -2,9 +2,8 @@ package api
 
 import (
 	"context"
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	"github.com/s4kibs4mi/rapunzel-blog/security"
-	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	pb "github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"github.com/satori/go.uuid"
 	"net/http"
 	"github.com/s4kibs4mi/rapunzel-blog/models"
@@ -14,7 +13,7 @@ import (
 	"fmt"
 )
 
-func CreatePost(ctx context.Context, params *pb.ReqPostCreate) (*protos.ResPost, error) {
+func CreatePost(ctx context.Context, params *pb.ReqPostCreate) (*pb.ResPost, error) {
 	if !security.IsAuthenticated(ctx) {
 		return nil, security.GetUnauthenticatedError()
 	}
@@ -206,7 +205,7 @@ func ChangePostStatus(ctx context.Context, params *pb.ReqPostChangeStatus) (*pb.
 
 }
 
-func GetPost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
+func GetPost(ctx context.Context, params *pb.GetByID) (*pb.ResPost, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResPost{
@@ -255,7 +254,7 @@ func GetPost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
 	}, nil
 }
 
-func DeletePost(ctx context.Context, params *pb.GetByID) (*protos.ResPostSuccess, error) {
+func DeletePost(ctx context.Context, params *pb.GetByID) (*pb.ResPostSuccess, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResPostSuccess{
@@ -305,7 +304,7 @@ func DeletePost(ctx context.Context, params *pb.GetByID) (*protos.ResPostSuccess
 	}, nil
 }
 
-func UpdatePost(ctx context.Context, params *pb.ReqPostUpdate) (*protos.ResPost, error) {
+func UpdatePost(ctx context.Context, params *pb.ReqPostUpdate) (*pb.ResPost, error) {
 	if !security.IsAuthenticated(ctx) {
 		return nil, security.GetUnauthenticatedError()
 	}
@@ -374,7 +373,7 @@ func UpdatePost(ctx context.Context, params *pb.ReqPostUpdate) (*protos.ResPost,
 	}, nil
 }
 
-func FavouritePost(ctx context.Context, params *pb.GetByID) (*protos.ResPost, error) {
+func FavouritePost(ctx context.Context, params *pb.GetByID) (*pb.ResPost, error) {
 	postStorage := storage.NewPostStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResPost{

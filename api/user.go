@@ -1,9 +1,8 @@
 package api
 
 import (
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
 	"context"
-	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	pb "github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"github.com/s4kibs4mi/rapunzel-blog/storage"
 	"github.com/satori/go.uuid"
 	"net/http"
@@ -22,7 +21,7 @@ import (
  * := Coffee : Dream : Code
  */
 
-func Register(ctx context.Context, params *pb.ReqRegistration) (*protos.ResRegistration, error) {
+func Register(ctx context.Context, params *pb.ReqRegistration) (*pb.ResRegistration, error) {
 	data := storage.NewUserStorage()
 	var validationErrorDetails []*pb.ErrorDetails
 

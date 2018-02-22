@@ -2,7 +2,7 @@ package servers
 
 import (
 	"context"
-	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	pb "github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"github.com/s4kibs4mi/rapunzel-blog/api"
 )
 

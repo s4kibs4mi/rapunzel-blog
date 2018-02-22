@@ -35,7 +35,8 @@ Download the [dep](https://github.com/golang/dep) package and run command `dep e
 
 ##### Compile Protos,
 ```
-protoc --proto_path=. --go_out=plugins=grpc:. ./protos/*.proto
+// Move to proto directory
+protoc --go_out=plugins=grpc:./../../../../ ./defs/*.proto
 ```
 
 #### License

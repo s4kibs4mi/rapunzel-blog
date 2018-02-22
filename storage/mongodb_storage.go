@@ -2,7 +2,7 @@ package storage
 
 import (
 	"github.com/s4kibs4mi/rapunzel-blog/models"
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
+	"github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"github.com/s4kibs4mi/rapunzel-blog/conn"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -87,7 +87,7 @@ func (db *MongodbStorage) FindAll() []models.User {
 	return users
 }
 
-func (db *MongodbStorage) FindAllByQuery(query protos.Query) []models.User {
+func (db *MongodbStorage) FindAllByQuery(query defs.Query) []models.User {
 	var users []models.User
 	if err := conn.GetUserCollection().Find(bson.M{
 		query.Field: query.Value,
@@ -146,7 +146,7 @@ func (db *MongodbStorage) DeletePost(p *models.Post) bool {
 	return true
 }
 
-func (db *MongodbStorage) FindPostsByQuery(query []*protos.Query) []*models.Post {
+func (db *MongodbStorage) FindPostsByQuery(query []*defs.Query) []*models.Post {
 	q := bson.M{
 	}
 	for _, v := range query {
@@ -177,7 +177,7 @@ func (db *MongodbStorage) SaveComment(comment *models.Comment) bool {
 	return true
 }
 
-func (db *MongodbStorage) FindCommentsByQuery(query []*protos.Query) []*models.Comment {
+func (db *MongodbStorage) FindCommentsByQuery(query []*defs.Query) []*models.Comment {
 	q := bson.M{
 	}
 	for _, v := range query {

@@ -7,15 +7,14 @@ import (
 	"time"
 
 	"github.com/s4kibs4mi/rapunzel-blog/models"
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
-	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	pb "github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"github.com/s4kibs4mi/rapunzel-blog/security"
 	"github.com/s4kibs4mi/rapunzel-blog/storage"
 	"github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2/bson"
 )
 
-func CreateComment(ctx context.Context, params *protos.ReqCommentCreate) (*protos.ResComment, error) {
+func CreateComment(ctx context.Context, params *pb.ReqCommentCreate) (*pb.ResComment, error) {
 	if !security.IsAuthenticated(ctx) {
 		return nil, security.GetUnauthenticatedError()
 	}
@@ -113,7 +112,7 @@ func CreateComment(ctx context.Context, params *protos.ReqCommentCreate) (*proto
 	}, nil
 }
 
-func UpdateComment(ctx context.Context, params *protos.ReqCommentCreate) (*protos.ResComment, error) {
+func UpdateComment(ctx context.Context, params *pb.ReqCommentCreate) (*pb.ResComment, error) {
 	if !security.IsAuthenticated(ctx) {
 		return nil, security.GetUnauthenticatedError()
 	}
@@ -211,7 +210,7 @@ func UpdateComment(ctx context.Context, params *protos.ReqCommentCreate) (*proto
 	}, nil
 }
 
-func GetComments(ctx context.Context, params *protos.GetByQuery) (*protos.ResCommentList, error) {
+func GetComments(ctx context.Context, params *pb.GetByQuery) (*pb.ResCommentList, error) {
 	commentStorage := storage.NewCommentStorage()
 	comments := commentStorage.FindCommentsByQuery(params.Query)
 	var convertedComments []*pb.Comment
@@ -231,7 +230,7 @@ func GetComments(ctx context.Context, params *protos.GetByQuery) (*protos.ResCom
 	}, nil
 }
 
-func GetComment(ctx context.Context, params *protos.GetByID) (*protos.ResComment, error) {
+func GetComment(ctx context.Context, params *pb.GetByID) (*pb.ResComment, error) {
 	commentStorage := storage.NewCommentStorage()
 	if !bson.IsObjectIdHex(params.Id) {
 		return &pb.ResComment{

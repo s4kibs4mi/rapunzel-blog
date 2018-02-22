@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	pb "github.com/s4kibs4mi/rapunzel-blog/protos"
+	pb "github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"google.golang.org/grpc"
 	"net"
 	"google.golang.org/grpc/reflection"

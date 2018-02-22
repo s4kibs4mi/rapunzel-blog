@@ -1,14 +1,16 @@
 syntax = "proto3";
 
-package protos;
+package defs;
 
-option go_package = "protos";
-option java_package = "ninja.sakib.rapunzel";
+option go_package = "github.com/s4kibs4mi/rapunzel-blog/proto/defs";
+option java_package = "ninja.sakib.rapunzel.android.proto";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
 
-import "protos/user.proto";
-import "protos/post.proto";
-import "protos/comment.proto";
-import "protos/common.proto";
+import "defs/user.proto";
+import "defs/post.proto";
+import "defs/comment.proto";
+import "defs/common.proto";
 
 /**
  * := Coded with love by Sakib Sami on 19/01/18.

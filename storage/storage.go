@@ -2,7 +2,7 @@ package storage
 
 import (
 	"github.com/s4kibs4mi/rapunzel-blog/models"
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
+	"github.com/s4kibs4mi/rapunzel-blog/proto/defs"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -23,7 +23,7 @@ type UserStorage interface {
 	FindByUsername(username string) *models.User
 	FindByEmail(username string) *models.User
 	FindAll() []models.User
-	FindAllByQuery(query protos.Query) []models.User
+	FindAllByQuery(query defs.Query) []models.User
 }
 
 type SessionStorage interface {
@@ -38,14 +38,14 @@ type PostStorage interface {
 	SavePost(post *models.Post) bool
 	UpdatePost(post *models.Post) bool
 	DeletePost(post *models.Post) bool
-	FindPostsByQuery(query []*protos.Query) []*models.Post
+	FindPostsByQuery(query []*defs.Query) []*models.Post
 	FindPostByID(postID string) *models.Post
 }
 
 type CommentStorage interface {
 	Init() bool
 	SaveComment(comment *models.Comment) bool
-	FindCommentsByQuery(query []*protos.Query) []*models.Comment
+	FindCommentsByQuery(query []*defs.Query) []*models.Comment
 	FindCommentByID(commentID string) *models.Comment
 }
 

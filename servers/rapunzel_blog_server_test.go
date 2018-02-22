@@ -3,7 +3,7 @@ package servers
 import (
 	"testing"
 	"google.golang.org/grpc"
-	"github.com/s4kibs4mi/rapunzel-blog/protos"
+	"github.com/s4kibs4mi/rapunzel-blog/proto"
 	"context"
 	"fmt"
 	"google.golang.org/grpc/metadata"
@@ -18,7 +18,7 @@ import (
  */
 
 var conn *grpc.ClientConn
-var client protos.RapunzelBlogServiceClient
+var client proto.RapunzelBlogServiceClient
 var err error
 
 func init() {
@@ -27,11 +27,11 @@ func init() {
 		fmt.Println("Couldn't initialize connection, ", err)
 		os.Exit(-1)
 	}
-	client = protos.NewRapunzelBlogServiceClient(conn)
+	client = proto.NewRapunzelBlogServiceClient(conn)
 }
 
 func TestRapunzelBlogServer_Register(t *testing.T) {
-	resp, e := client.Register(context.Background(), &protos.ReqRegistration{
+	resp, e := client.Register(context.Background(), &proto.ReqRegistration{
 		Name:     "Nur",
 		Email:    "nur@sakib.ninja",
 		Username: "nur",
@@ -50,7 +50,7 @@ func TestRapunzelBlogServer_Register(t *testing.T) {
 }
 
 func TestRapunzelBlogServer_Login(t *testing.T) {
-	resp, e := client.Login(context.Background(), &protos.ReqLogin{
+	resp, e := client.Login(context.Background(), &proto.ReqLogin{
 		Username: "s4kibs4mi",
 		Password: "123456789",
 	})
@@ -68,7 +68,7 @@ func TestRapunzelBlogServer_Login(t *testing.T) {
 func TestRapunzelBlogServer_CreatePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.CreatePost(ctx, &protos.ReqPostCreate{
+	resp, e := client.CreatePost(ctx, &proto.ReqPostCreate{
 		Title:      "Hello",
 		Body:       "Test body",
 		Categories: []string{"test", "jally", "blog"},
@@ -88,7 +88,7 @@ func TestRapunzelBlogServer_CreatePost(t *testing.T) {
 func TestRapunzelBlogServer_UpdatePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.UpdatePost(ctx, &protos.ReqPostUpdate{
+	resp, e := client.UpdatePost(ctx, &proto.ReqPostUpdate{
 		Id:         "5a662858b34db60518737db1",
 		Title:      "Hello",
 		Body:       "Test body",
@@ -109,8 +109,8 @@ func TestRapunzelBlogServer_UpdatePost(t *testing.T) {
 func TestRapunzelBlogServer_GetPosts(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.GetPosts(ctx, &protos.GetByQuery{
-		Query: []*protos.Query{
+	resp, e := client.GetPosts(ctx, &proto.GetByQuery{
+		Query: []*proto.Query{
 			{
 				Field: "status",
 				Value: "saved",
@@ -133,7 +133,7 @@ func TestRapunzelBlogServer_GetPosts(t *testing.T) {
 func TestRapunzelBlogServer_GetPost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.GetPost(ctx, &protos.GetByID{
+	resp, e := client.GetPost(ctx, &proto.GetByID{
 		Id: "5a662802b34db604fb5dbc89",
 	})
 	if e != nil {
@@ -150,7 +150,7 @@ func TestRapunzelBlogServer_GetPost(t *testing.T) {
 func TestRapunzelBlogServer_FavouritePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.FavouritePost(ctx, &protos.GetByID{
+	resp, e := client.FavouritePost(ctx, &proto.GetByID{
 		Id: "5a662802b34db604fb5dbc89",
 	})
 	if e != nil {
@@ -167,7 +167,7 @@ func TestRapunzelBlogServer_FavouritePost(t *testing.T) {
 func TestRapunzelBlogServer_DeletePost(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.DeletePost(ctx, &protos.GetByID{
+	resp, e := client.DeletePost(ctx, &proto.GetByID{
 		Id: "5a662858b34db60518737db1",
 	})
 	if e != nil {
@@ -184,7 +184,7 @@ func TestRapunzelBlogServer_DeletePost(t *testing.T) {
 func TestRapunzelBlogServer_ChangeStatus(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.ChangePostStatus(ctx, &protos.ReqPostChangeStatus{
+	resp, e := client.ChangePostStatus(ctx, &proto.ReqPostChangeStatus{
 		Id:        "5a662802b34db604fb5dbc89",
 		NewStatus: "published",
 	})
@@ -202,7 +202,7 @@ func TestRapunzelBlogServer_ChangeStatus(t *testing.T) {
 func TestRapunzelBlogServer_CreateComment(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.CreateComment(ctx, &protos.ReqCommentCreate{
+	resp, e := client.CreateComment(ctx, &proto.ReqCommentCreate{
 		Title:  "Hello",
 		Body:   "Test Comment",
 		PostId: "5a662802b34db604fb5dbc89",
@@ -221,7 +221,7 @@ func TestRapunzelBlogServer_CreateComment(t *testing.T) {
 func TestRapunzelBlogServer_GetComments(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.GetComments(ctx, &protos.GetByQuery{
+	resp, e := client.GetComments(ctx, &proto.GetByQuery{
 
 	})
 	if e != nil {
@@ -236,7 +236,7 @@ func TestRapunzelBlogServer_GetComments(t *testing.T) {
 func TestRapunzelBlogServer_GetComment(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.GetComment(ctx, &protos.GetByID{
+	resp, e := client.GetComment(ctx, &proto.GetByID{
 		Id: "5a67227e29c4463ab740dce8",
 	})
 	if e != nil {
@@ -253,7 +253,7 @@ func TestRapunzelBlogServer_GetComment(t *testing.T) {
 func TestRapunzelBlogServer_GetProfile(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.Profile(ctx, &protos.ReqProfile{
+	resp, e := client.Profile(ctx, &proto.ReqProfile{
 		UserID: "5a854a6329c4467ceb3fc892",
 	})
 	if e != nil {
@@ -270,7 +270,7 @@ func TestRapunzelBlogServer_GetProfile(t *testing.T) {
 func TestRapunzelBlogServer_ChangeUserStatus(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.ChangeStatus(ctx, &protos.ReqChangeUserStatus{
+	resp, e := client.ChangeStatus(ctx, &proto.ReqChangeUserStatus{
 		UserID:    "5a854a6329c4467ceb3fc892",
 		NewStatus: "verified",
 	})
@@ -288,7 +288,7 @@ func TestRapunzelBlogServer_ChangeUserStatus(t *testing.T) {
 func TestRapunzelBlogServer_ChangeUserType(t *testing.T) {
 	md := metadata.Pairs("Authorization", "Bearer 13ca3c5f-ec6d-4914-a0a8-98b3d681a05b")
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	resp, e := client.ChangeType(ctx, &protos.ReqChangeUserType{
+	resp, e := client.ChangeType(ctx, &proto.ReqChangeUserType{
 		UserID:  "5a854a6329c4467ceb3fc892",
 		NewType: "family",
 	})
