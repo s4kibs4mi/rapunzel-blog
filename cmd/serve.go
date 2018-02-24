@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/s4kibs4mi/rapunzel-blog/conn"
 	"github.com/s4kibs4mi/rapunzel-blog/auth"
+	"os"
 )
 
 /**
@@ -32,7 +33,10 @@ func Serve(cmd *cobra.Command, args []string) {
 }
 
 func initDBs() {
-	conn.NewMongodbConnection()
+	ok := conn.NewMongodbConnection()
+	if !ok {
+		os.Exit(-1)
+	}
 }
 
 func runAndListen() {

@@ -6,7 +6,7 @@
   },
   "databases": {
     "mongodb": {
-      "uri": "mongodb://cloud.sakib.ninja:27717",
+      "uri": "mongodb://192.168.0.102:27017",
       "name": "rapunzel_blog",
       "collections": {
         "user": "col_users",
